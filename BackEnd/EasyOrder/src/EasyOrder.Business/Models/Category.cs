@@ -7,5 +7,7 @@ namespace EasyOrder.Business.Models
     public class Category : Entity
     {
         public string Name { get; set; }
+
+        public ICollection<Extra> Extras { get; set; }
     }
 }

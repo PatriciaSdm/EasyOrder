@@ -17,6 +17,14 @@ namespace EasyOrder.Data.Mappings
             builder.Property(x => x.Name)
                 .IsRequired()
                 .HasColumnType("varchar(200)");
+
+            // N : N => Categories : Extras
+            builder
+                .HasMany(p => p.Extras)
+                .WithMany(p => p.Categories)
+                .UsingEntity(j => j.ToTable("CategoriesExtras"));
+
+            builder.ToTable("Categories");
         }
     }
 }

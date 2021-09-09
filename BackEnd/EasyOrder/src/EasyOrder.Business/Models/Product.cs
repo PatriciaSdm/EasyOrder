@@ -11,7 +11,10 @@ namespace EasyOrder.Business.Models
         public decimal Price { get; set; }
         public Guid IdCategory { get; set; }
 
+
         /* EF Relations */
         public Category Category { get; set; }
+        public ICollection<Item> Items { get; set; }
+
     }
 }

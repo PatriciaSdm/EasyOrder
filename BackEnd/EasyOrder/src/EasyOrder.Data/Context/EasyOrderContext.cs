@@ -10,13 +10,13 @@ namespace EasyOrder.Data.Context
     {
         public EasyOrderContext(DbContextOptions options) : base(options)
         {
-
+            
         }
 
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Extra> Extra { get; set; }
-        public DbSet<Item> Item { get; set; }
-        public DbSet<Order> Order { get; set; }
-        public DbSet<Product> Product { get; set; }
+        public DbSet<Extra> Extras { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }
