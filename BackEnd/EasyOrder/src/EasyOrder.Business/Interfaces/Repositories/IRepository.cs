@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyOrder.Business.Interfaces
+namespace EasyOrder.Business.Interfaces.Repositories
 {
     public interface IRepository<TEntity> : IDisposable where TEntity : Entity
     {

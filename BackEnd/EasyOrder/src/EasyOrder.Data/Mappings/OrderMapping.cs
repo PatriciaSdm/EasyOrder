@@ -37,7 +37,7 @@ namespace EasyOrder.Data.Mappings
                 .WithOne(p => p.Order)
                 .HasForeignKey(p => p.IdOrder);
 
-            builder.ToTable("Products");
+            builder.ToTable("Orders");
         }
     }
 }
