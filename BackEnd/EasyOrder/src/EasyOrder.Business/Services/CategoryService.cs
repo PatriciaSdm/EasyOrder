@@ -65,7 +65,7 @@ namespace EasyOrder.Business.Services
 
         private async Task ActiveOrDesactivateProducts(Category category)
         {
-            if (_categoryRepository.GetById(category.Id).Result.Active != category.Active)
+            if (_categoryRepository.IsActivated(category.Id))
             {
                 var products = _productRepository.GetByIdCategory(category.Id).Result.ToList();
                 products.Select(x => x.Active = category.Active);

@@ -66,7 +66,7 @@ namespace EasyOrder.Api.Controllers
 
             if (!result) return BadRequest();
 
-            return Ok(category);
+            return Ok(categoryViewModel);
         }
     }
 }

@@ -14,7 +14,12 @@ namespace EasyOrder.Data.Repository
     {
         public CategoryRepository(EasyOrderContext context) : base(context)
         {
+
         }
 
+        public bool IsActivated(Guid id)
+        {
+            return Db.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id).Result.Active;
+        }
     }
 }
