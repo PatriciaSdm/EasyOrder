@@ -40,6 +40,11 @@ namespace Zombie.Tests.Mocks
             throw new NotImplementedException();
         }
 
+        public bool IsActivated(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<int> SaveChanges()
         {
             throw new NotImplementedException();

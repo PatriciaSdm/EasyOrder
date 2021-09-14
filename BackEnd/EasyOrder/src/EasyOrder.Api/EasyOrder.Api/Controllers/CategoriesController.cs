@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EasyOrder.Api.ViewModels;
+using EasyOrder.Business.Interfaces.INotifications;
 using EasyOrder.Business.Interfaces.Services;
 using EasyOrder.Business.Models;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +19,8 @@ namespace EasyOrder.Api.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
         public CategoriesController(ICategoryService categoryService,
-                                  IMapper mapper)
+                                  IMapper mapper,
+                                  INotifier notifier) : base(notifier)
         {
             _categoryService = categoryService;
             _mapper = mapper;
@@ -44,29 +46,27 @@ namespace EasyOrder.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<CategoryViewModel>> Include(CategoryViewModel categoryViewModel)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var category = _mapper.Map<Category>(categoryViewModel);
-            var result = await _categoryService.Include(category);
+            await _categoryService.Include(_mapper.Map<Category>(categoryViewModel));
 
-            if (!result) return BadRequest();
-
-            return Ok(category);
+            return CustomResponse(categoryViewModel);
         }
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<CategoryViewModel>> Update(Guid id, CategoryViewModel categoryViewModel)
         {
-            if (id != categoryViewModel.Id) return BadRequest();
+            if (id != categoryViewModel.Id)
+            {
+                NotifyError("O id informado não é o mesmo que foi passado na query");
+                return CustomResponse(categoryViewModel);
+            }
 
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var category = _mapper.Map<Category>(categoryViewModel);
-            var result = await _categoryService.Update(category);
+            await _categoryService.Update(_mapper.Map<Category>(categoryViewModel));
 
-            if (!result) return BadRequest();
-
-            return Ok(categoryViewModel);
+            return CustomResponse(categoryViewModel);
         }
     }
 }
