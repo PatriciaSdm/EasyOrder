@@ -42,6 +42,15 @@ namespace EasyOrder.Api
                 options.SuppressModelStateInvalidFilter = true;       //para não usar o padrão e personalizar a resposta
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Development",
+                    builder => builder.SetIsOriginAllowed(origin => true) // = AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.ResolveDependencies();
         }
 
@@ -59,6 +68,7 @@ namespace EasyOrder.Api
 
             app.UseAuthorization();
 
+            app.UseCors("Development");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
