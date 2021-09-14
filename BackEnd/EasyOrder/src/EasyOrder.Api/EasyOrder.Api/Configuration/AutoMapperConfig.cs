@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using EasyOrder.Api.ViewModels;
+using EasyOrder.Business.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,7 @@ namespace EasyOrder.Api.Configuration
     {
         public AutoMapperConfig()
         {
-
+            CreateMap<Category, CategoryViewModel>().ReverseMap();
         }
     }
 }

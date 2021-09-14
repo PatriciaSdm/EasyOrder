@@ -2,9 +2,11 @@
 using EasyOrder.Business.Interfaces.Repositories;
 using EasyOrder.Business.Models;
 using EasyOrder.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EasyOrder.Data.Repository
 {
@@ -13,5 +15,6 @@ namespace EasyOrder.Data.Repository
         public CategoryRepository(EasyOrderContext context) : base(context)
         {
         }
+
     }
 }

@@ -27,6 +27,9 @@ namespace EasyOrder.Data.Mappings
             builder.Property(x => x.IdCategory)
                .IsRequired();
 
+            builder.Property(x => x.Active)
+               .IsRequired();
+
             // 1 : N => Item : Product
             builder.HasMany(f => f.Items)
                 .WithOne(p => p.Product)

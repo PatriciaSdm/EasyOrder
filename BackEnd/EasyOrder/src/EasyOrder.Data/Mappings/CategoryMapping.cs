@@ -18,6 +18,9 @@ namespace EasyOrder.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(200)");
 
+            builder.Property(x => x.Active)
+                .IsRequired();
+
             // N : N => Categories : Extras
             builder
                 .HasMany(p => p.Extras)

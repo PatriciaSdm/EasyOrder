@@ -12,5 +12,7 @@ namespace EasyOrder.Business.Models
         }
 
         public Guid Id { get; set; }
+
+
     }
 }
