@@ -37,6 +37,15 @@ namespace EasyOrder.Api
 
             services.WebApiConfig();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Development",
+                    builder => builder.SetIsOriginAllowed(origin => true) // = AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.ResolveDependencies();
         }
 
