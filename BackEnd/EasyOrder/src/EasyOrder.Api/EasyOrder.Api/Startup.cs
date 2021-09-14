@@ -35,12 +35,7 @@ namespace EasyOrder.Api
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddControllers();
-
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;       //para não usar o padrão e personalizar a resposta
-            });
+            services.WebApiConfig();
 
             services.ResolveDependencies();
         }
@@ -53,16 +48,9 @@ namespace EasyOrder.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseMvcConfiguration();
         }
     }
 }
