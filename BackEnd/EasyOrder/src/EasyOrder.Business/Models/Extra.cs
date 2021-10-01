@@ -7,6 +7,7 @@ namespace EasyOrder.Business.Models
     public class Extra : Entity
     {
         public string Name { get; set; }
+        public bool Active { get; set; }
 
 
         /* EF Relations */

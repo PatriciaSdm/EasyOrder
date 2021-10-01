@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\EasyOrder.Business\EasyOrder.Business.csproj" />
+    <ProjectReference Include="..\..\src\EasyOrder.Data\EasyOrder.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -17,6 +17,9 @@ namespace EasyOrder.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(200)");
 
+            builder.Property(x => x.Active)
+              .IsRequired();
+
             builder.ToTable("Extras");
         }
     }

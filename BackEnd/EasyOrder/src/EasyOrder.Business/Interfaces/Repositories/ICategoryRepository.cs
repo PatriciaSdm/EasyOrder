@@ -9,6 +9,6 @@ namespace EasyOrder.Business.Interfaces.Repositories
 {
     public interface ICategoryRepository : IRepository<Category>
     {
-        bool IsActivated(Guid id);
+        bool GetActiveStatus(Guid id);
     }
 }

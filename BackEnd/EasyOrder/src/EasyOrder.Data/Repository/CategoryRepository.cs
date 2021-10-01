@@ -17,7 +17,7 @@ namespace EasyOrder.Data.Repository
 
         }
 
-        public bool IsActivated(Guid id)
+        public bool GetActiveStatus(Guid id)
         {
             return Db.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id).Result.Active;
         }

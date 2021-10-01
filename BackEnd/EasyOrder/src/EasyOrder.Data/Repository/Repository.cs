@@ -2,6 +2,7 @@
 using EasyOrder.Business.Interfaces.Repositories;
 using EasyOrder.Business.Models;
 using EasyOrder.Data.Context;
+using EasyOrder.Data.Utils;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -40,13 +41,13 @@ namespace EasyOrder.Data.Repository
 
         public virtual async Task Include(TEntity entity)
         {
-            DbSet.Add(entity);
+            DbSet.Add(entity.Clone());
             await SaveChanges();
         }
 
         public virtual async Task Update(TEntity entity)
         {
-            DbSet.Update(entity);
+            DbSet.Update(entity.Clone());
             await SaveChanges();
         }
 
