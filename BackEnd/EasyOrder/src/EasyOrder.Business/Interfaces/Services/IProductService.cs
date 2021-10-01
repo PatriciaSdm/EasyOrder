@@ -11,5 +11,7 @@ namespace EasyOrder.Business.Interfaces.Services
         Task<bool> Include(Product product);
         Task<IEnumerable<Product>> GetByCategoryId(Guid id);
         Task<List<Product>> GetAll();
+        Task<bool> Update(Product product);
+        Task<Product> GetById(Guid id);
     }
 }

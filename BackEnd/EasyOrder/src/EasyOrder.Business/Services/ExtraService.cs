@@ -14,65 +14,59 @@ namespace EasyOrder.Business.Services
     public class ExtraService : Service, IExtraService
     {
         private readonly IExtraRepository _extraRepository;
-
-        public ExtraService(IExtraRepository ExtraRepository,
-                                 INotifier notifier) : base(notifier)
+        public ExtraService(INotifier notifier,
+                              IExtraRepository extraRepository) : base(notifier)
         {
-            _extraRepository = ExtraRepository;
+            _extraRepository = extraRepository;
         }
 
-        public async Task<bool> Adicionar(Extra Extra)
+        public async Task<List<Extra>> GetAll()
         {
-            if (!ExecutarValidacao(new ExtraValidation(), Extra)) return false;
+            return await _extraRepository.GetAll();
+        }
 
-            if (_extraRepository.Find(f => f.Name.Equals(Extra.Name)).Result.Any())
+        public async Task<bool> Include(Extra extra)
+        {
+            if (!ExecutarValidacao(new ExtraValidation(), extra)) return false;
+
+            if (_extraRepository.Find(f => f.Name == extra.Name).Result.Any())
             {
-                Notify("Já existe um Extra com este nome informado.");
+                Notify("Já existe um adicional com este nome informado.");
                 return false;
             }
 
-            await _extraRepository.Include(Extra);
+            await _extraRepository.Include(extra);
             return true;
         }
 
-        public async Task<bool> Atualizar(Extra Extra)
+        public async Task<bool> Update(Extra extra)
         {
-            if (!ExecutarValidacao(new ExtraValidation(), Extra)) return false;
+            if (!ExecutarValidacao(new ExtraValidation(), extra)) return false;
 
-            if (_extraRepository.Find(f => f.Name.Equals(Extra.Name) && f.Id != Extra.Id).Result.Any())
+            if (_extraRepository.Find(f => f.Name == extra.Name && f.Id != extra.Id).Result.Any())
             {
-                Notify("Já existe um Extra com este documento infomado.");
+                Notify("Já existe um adicional com este nome informado.");
                 return false;
             }
 
-            await _extraRepository.Update(Extra);
+            await _extraRepository.Update(extra);
             return true;
         }
 
- 
-
-        public async Task<bool> Remover(Guid id)
+        public async Task<Extra> GetById(Guid id)
         {
-            //if (_extraRepository.GetCategoryWithExtra(id).Result.Produtos.Any())
-            //{
-            //    Notificar("O Extra possui produtos cadastrados!");
-            //    return false;
-            //}
+            return await _extraRepository.GetById(id);
+        }
 
-            //var endereco = await _enderecoRepository.ObterEnderecoPorExtra(id);
-
-            //if (endereco != null)
-            //{
-            //    await _enderecoRepository.Remover(endereco.Id);
-            //}
-
-            await _extraRepository.Delete(id);
-            return true;
+        public async Task<IEnumerable<Extra>> GetExtraWithCategories(Guid id)
+        {
+          return  await _extraRepository.GetExtraWithCategories(id);
         }
 
         public void Dispose()
         {
             _extraRepository?.Dispose();
         }
+
     }
 }

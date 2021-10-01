@@ -42,12 +42,31 @@ namespace EasyOrder.Business.Services
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _productRepository?.Dispose();
         }
 
         public Task<IEnumerable<Product>> GetByCategoryId(Guid id)
         {
             return _productRepository.GetByIdCategory(id);
+        }
+
+        public async Task<bool> Update(Product product)
+        {
+            if (!ExecutarValidacao(new ProductValidation(), product)) return false;
+
+            if (_productRepository.Find(f => f.Name == product.Name && f.Id != product.Id).Result.Any())
+            {
+                Notify("Já existe um produto com este nome informado.");
+                return false;
+            }
+
+            await _productRepository.Update(product);
+            return true;
+        }
+
+        public Task<Product> GetById(Guid id)
+        {
+            return _productRepository.GetById(id);
         }
     }
 }
