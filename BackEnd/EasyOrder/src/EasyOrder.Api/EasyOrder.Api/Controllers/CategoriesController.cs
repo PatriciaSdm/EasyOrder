@@ -3,6 +3,7 @@ using EasyOrder.Api.ViewModels;
 using EasyOrder.Business.Interfaces.INotifications;
 using EasyOrder.Business.Interfaces.Services;
 using EasyOrder.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace EasyOrder.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : MainController
@@ -34,6 +36,7 @@ namespace EasyOrder.Api.Controllers
             return Ok(categories);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<IEnumerable<CategoryViewModel>>> Get(Guid id)
         {
