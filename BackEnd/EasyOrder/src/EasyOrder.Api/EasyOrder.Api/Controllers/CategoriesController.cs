@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EasyOrder.Api.Extensions;
 using EasyOrder.Api.ViewModels;
 using EasyOrder.Business.Interfaces.INotifications;
 using EasyOrder.Business.Interfaces.Services;
@@ -46,6 +47,7 @@ namespace EasyOrder.Api.Controllers
             return Ok(category);
         }
 
+        [ClaimsAuthorize("Categories", "Include")]
         [HttpPost]
         public async Task<ActionResult<CategoryViewModel>> Include(CategoryViewModel categoryViewModel)
         {
@@ -56,6 +58,7 @@ namespace EasyOrder.Api.Controllers
             return CustomResponse(categoryViewModel);
         }
 
+        [ClaimsAuthorize("Categories", "Update")]
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<CategoryViewModel>> Update(Guid id, CategoryViewModel categoryViewModel)
         {
