@@ -1,10 +1,13 @@
-﻿using EasyOrder.Business.Interfaces.INotifications;
+﻿using EasyOrder.Api.Extensions;
+using EasyOrder.Business.Interfaces;
+using EasyOrder.Business.Interfaces.INotifications;
 using EasyOrder.Business.Interfaces.Repositories;
 using EasyOrder.Business.Interfaces.Services;
 using EasyOrder.Business.Notifications;
 using EasyOrder.Business.Services;
 using EasyOrder.Data.Context;
 using EasyOrder.Data.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -31,8 +34,8 @@ namespace EasyOrder.Api.Configuration
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IProductService, ProductService>();
 
-            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.AddScoped<IUser, AspNetUser>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IUser, AspNetUser>();
 
             //services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 

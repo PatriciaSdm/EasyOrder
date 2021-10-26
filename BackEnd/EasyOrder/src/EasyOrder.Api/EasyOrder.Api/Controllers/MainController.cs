@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyOrder.Api.ViewModels;
+using EasyOrder.Business.Interfaces;
 using EasyOrder.Business.Interfaces.INotifications;
 using EasyOrder.Business.Notifications;
 using Microsoft.AspNetCore.Http;
@@ -15,10 +16,22 @@ namespace EasyOrder.Api.Controllers
     public abstract class MainController : ControllerBase
     {
         private readonly INotifier _notifier;
+        public readonly IUser AppUser;
 
-        public MainController(INotifier notifier)
+        protected Guid UserId { get; set; }
+        protected bool AuthenticatedUser { get; set; }
+
+        public MainController(INotifier notifier,
+            IUser appUser)
         {
             _notifier = notifier;
+            AppUser = appUser;
+
+            if (AppUser.IsAuthenticated())
+            {
+                UserId = appUser.GetUserId();
+                AuthenticatedUser = true;
+            }
         }
 
         protected bool IsOperationValid()

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EasyOrder.Api.Extensions;
 using EasyOrder.Api.ViewModels;
+using EasyOrder.Business.Interfaces;
 using EasyOrder.Business.Interfaces.INotifications;
 using EasyOrder.Business.Interfaces.Services;
 using EasyOrder.Business.Models;
@@ -23,7 +24,8 @@ namespace EasyOrder.Api.Controllers
         private readonly IMapper _mapper;
         public CategoriesController(ICategoryService categoryService,
                                   IMapper mapper,
-                                  INotifier notifier) : base(notifier)
+                                  INotifier notifier,
+                                  IUser user) : base(notifier, user)
         {
             _categoryService = categoryService;
             _mapper = mapper;
@@ -40,7 +42,7 @@ namespace EasyOrder.Api.Controllers
         [AllowAnonymous]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<IEnumerable<CategoryViewModel>>> Get(Guid id)
-        {
+        {000000000000
             var category = _mapper.Map<CategoryViewModel>(await _categoryService.GetById(id));
             if (category == null) return NotFound();
 
@@ -51,6 +53,10 @@ namespace EasyOrder.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<CategoryViewModel>> Include(CategoryViewModel categoryViewModel)
         {
+            //if (AuthenticatedUser)
+            //    AppUser.Name
+            //    UserId
+
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             await _categoryService.Include(_mapper.Map<Category>(categoryViewModel));

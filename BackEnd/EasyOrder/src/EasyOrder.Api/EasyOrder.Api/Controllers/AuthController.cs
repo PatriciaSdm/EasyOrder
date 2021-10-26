@@ -1,5 +1,6 @@
 ﻿using EasyOrder.Api.Extensions;
 using EasyOrder.Api.ViewModels;
+using EasyOrder.Business.Interfaces;
 using EasyOrder.Business.Interfaces.INotifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,8 @@ namespace EasyOrder.Api.Controllers
         public AuthController(INotifier notifier,
                               SignInManager<IdentityUser> signInManager,
                               UserManager<IdentityUser> userManager,
-                              IOptions<AppSettings> appSettings) : base(notifier)
+                              IOptions<AppSettings> appSettings,
+                              IUser user) : base(notifier, user)
         {
             _signInManager = signInManager;
             _userManager = userManager;

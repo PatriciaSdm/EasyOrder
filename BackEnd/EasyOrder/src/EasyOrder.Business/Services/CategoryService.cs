@@ -1,4 +1,5 @@
-﻿using EasyOrder.Business.Interfaces.INotifications;
+﻿using EasyOrder.Business.Interfaces;
+using EasyOrder.Business.Interfaces.INotifications;
 using EasyOrder.Business.Interfaces.Repositories;
 using EasyOrder.Business.Interfaces.Services;
 using EasyOrder.Business.Models;
@@ -15,12 +16,15 @@ namespace EasyOrder.Business.Services
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IUser _user;
         public CategoryService(ICategoryRepository categoryRepository,
                                IProductRepository productRepository,
-                               INotifier notifier) : base(notifier)
+                               INotifier notifier,
+                               IUser user) : base(notifier)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
+            _user = user;
         }
 
         public async Task<List<Category>> GetAll()
@@ -35,6 +39,8 @@ namespace EasyOrder.Business.Services
 
         public async Task<bool> Include(Category category)
         {
+            //var user = _user.GetUserId();
+
             if (!ExecutarValidacao(new CategoryValidation(), category)) return false;
 
             if (_categoryRepository.Find(f => f.Name == category.Name).Result.Any())
