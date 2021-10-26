@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,19 @@ namespace EasyOrder.Api.Configuration
             services.AddCors(options =>
             {
                 options.AddPolicy("Development",
-                    builder => builder.SetIsOriginAllowed(origin => true) // = AllowAnyOrigin()
+                    builder => builder
+                    .SetIsOriginAllowed(origin => true) // = AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials());
+
+                options.AddPolicy("Production",
+                    builder => builder
+                    //builder.WithMethods("GET")
+                    .WithOrigins("http://easyorder.io")
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    //.WithHeaders(HeaderNames.ContentType, "x-custom-header")
+                    .AllowAnyHeader());
             });
 
             return services;
@@ -36,8 +46,6 @@ namespace EasyOrder.Api.Configuration
             app.UseRouting();
 
             app.UseHttpsRedirection();
-
-            app.UseCors("Development");
 
             app.UseEndpoints(endpoints =>
             {
