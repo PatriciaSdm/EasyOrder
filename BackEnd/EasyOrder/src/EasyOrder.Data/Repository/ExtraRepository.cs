@@ -17,7 +17,7 @@ namespace EasyOrder.Data.Repository
         {
         }
 
-        public async Task<IEnumerable<Extra>> GetExtraWithCategories(Guid id)
+        public async Task<IEnumerable<Extra>> GetWithCategories(Guid id)
         {
             return await Db.Extras.Where(x => x.Id == id)
                 .Include(x => x.Categories)

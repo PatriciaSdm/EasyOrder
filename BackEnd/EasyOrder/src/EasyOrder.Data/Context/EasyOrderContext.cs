@@ -9,7 +9,7 @@ namespace EasyOrder.Data.Context
 {
     public class EasyOrderContext : DbContext
     {
-        public EasyOrderContext(DbContextOptions options) : base(options)
+        public EasyOrderContext(DbContextOptions<EasyOrderContext> options) : base(options)
         {
             
         }

@@ -9,6 +9,6 @@ namespace EasyOrder.Business.Interfaces.Repositories
 {
     public interface IExtraRepository : IRepository<Extra>
     {
-        Task<IEnumerable<Extra>> GetExtraWithCategories(Guid id);
+        Task<IEnumerable<Extra>> GetWithCategories(Guid id);
     }
 }

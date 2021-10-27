@@ -58,9 +58,9 @@ namespace EasyOrder.Business.Services
             return await _extraRepository.GetById(id);
         }
 
-        public async Task<IEnumerable<Extra>> GetExtraWithCategories(Guid id)
+        public async Task<IEnumerable<Extra>> GetWithCategories(Guid id)
         {
-          return  await _extraRepository.GetExtraWithCategories(id);
+          return  await _extraRepository.GetWithCategories(id);
         }
 
         public void Dispose()
