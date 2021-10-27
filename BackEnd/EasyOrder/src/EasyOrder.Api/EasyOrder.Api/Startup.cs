@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +27,7 @@ namespace EasyOrder.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddIdentityConfiguration(Configuration);
@@ -35,10 +36,7 @@ namespace EasyOrder.Api
 
             services.WebApiConfig();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Easy Order API", Version = "v1" });
-            });
+            services.AddSwaggerConfig();
 
             services.AddCors(options =>
             {
@@ -52,8 +50,7 @@ namespace EasyOrder.Api
             services.ResolveDependencies();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
@@ -71,11 +68,7 @@ namespace EasyOrder.Api
             app.UseAuthentication();
             app.UseMvcConfiguration();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Easy Order API V1");
-            });
+            app.UseSwaggerConfig(provider);
         }
     }
 }
