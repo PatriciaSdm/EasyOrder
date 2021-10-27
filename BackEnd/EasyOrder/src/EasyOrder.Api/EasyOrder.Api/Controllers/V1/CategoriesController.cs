@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EasyOrder.Api.Controllers;
 using EasyOrder.Api.Extensions;
 using EasyOrder.Api.ViewModels;
 using EasyOrder.Business.Interfaces;
@@ -13,10 +14,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EasyOrder.Api.Controllers
+namespace EasyOrder.Api.V1.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class CategoriesController : MainController
     {
@@ -42,7 +44,7 @@ namespace EasyOrder.Api.Controllers
         [AllowAnonymous]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<IEnumerable<CategoryViewModel>>> Get(Guid id)
-        {000000000000
+        {
             var category = _mapper.Map<CategoryViewModel>(await _categoryService.GetById(id));
             if (category == null) return NotFound();
 

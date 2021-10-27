@@ -1,3 +1,4 @@
+using EasyOrder.Business.Interfaces;
 using EasyOrder.Business.Interfaces.Services;
 using EasyOrder.Business.Models;
 using EasyOrder.Business.Notifications;
@@ -18,13 +19,14 @@ namespace EasyOrder.Tests
         private readonly FakeProductRepository _fakeProductRepository;
         private readonly ICategoryService _categoryService;
         private readonly IProductService _productService;
+        private readonly IUser _user;
 
 
         public CategoryServiceTest()
         {
             _fakeCategoryRepository = new FakeCategoryRepository();
             _fakeProductRepository = new FakeProductRepository();
-            _categoryService = new CategoryService(_fakeCategoryRepository, _fakeProductRepository, new Notifier());
+            _categoryService = new CategoryService(_fakeCategoryRepository, _fakeProductRepository, new Notifier(), _user);
             _productService = new ProductService(new Notifier(), _fakeProductRepository);
 
         }

@@ -15,6 +15,20 @@ namespace EasyOrder.Api.Configuration
         {
             services.AddControllers();
 
+            services.AddApiVersioning(options =>
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ReportApiVersions = true; //Avisa se a API esta obsoleta
+            });
+
+            //TODO: verificar nova sintaxe
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;       //para não usar o padrão e personalizar a resposta
