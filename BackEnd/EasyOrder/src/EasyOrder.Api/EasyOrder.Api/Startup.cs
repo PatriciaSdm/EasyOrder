@@ -1,20 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using EasyOrder.Api.Configuration;
-using EasyOrder.Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+using KissLog;
+using KissLog.AspNetCore;
+using KissLog.CloudListeners.Auth;
+using KissLog.CloudListeners.RequestLogsListener;
+using System.Text;
+using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 namespace EasyOrder.Api
 {
@@ -30,6 +29,8 @@ namespace EasyOrder.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLoggingConfig(Configuration);
+
             services.AddIdentityConfiguration(Configuration);
 
             services.AddAutoMapper(typeof(Startup));
@@ -60,7 +61,7 @@ namespace EasyOrder.Api
             else
             {
                 app.UseCors("Production");
-                app.UseHsts(); 
+                app.UseHsts();
             }
 
             app.UseAuthorization();
@@ -69,6 +70,9 @@ namespace EasyOrder.Api
             app.UseMvcConfiguration();
 
             app.UseSwaggerConfig(provider);
+
+
+            app.UseLoggingConfiguration(Configuration);
         }
     }
 }
