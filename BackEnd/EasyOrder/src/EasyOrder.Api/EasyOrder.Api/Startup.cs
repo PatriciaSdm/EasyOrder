@@ -14,65 +14,61 @@ using KissLog.CloudListeners.RequestLogsListener;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
+using EasyOrder.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyOrder.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public IConfiguration Configuration { get; }
+
+        public Startup(IHostEnvironment hostEnvironment)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(hostEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", true, true)
+                .AddEnvironmentVariables();
+
+            if (hostEnvironment.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            Configuration = builder.Build();
+        }
 
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLoggingConfig(Configuration);
+            services.AddDbContext<EasyOrderContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             services.AddIdentityConfiguration(Configuration);
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.WebApiConfig();
+            services.AddApiConfig();
 
             services.AddSwaggerConfig();
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("Development",
-                    builder => builder.SetIsOriginAllowed(origin => true) // = AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
-            });
+            services.AddLoggingConfig(Configuration);
 
             services.ResolveDependencies();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseCors("Development");
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseCors("Production");
-                app.UseHsts();
-            }
-
-            app.UseAuthorization();
-
-            app.UseAuthentication();
-            app.UseMvcConfiguration();
+            app.UseApiConfig(env);
 
             app.UseSwaggerConfig(provider);
 
-
             app.UseLoggingConfiguration(Configuration);
+
+            //app.UseHealthChecks("/hc");
         }
     }
 }

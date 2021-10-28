@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ namespace EasyOrder.Api.Configuration
 {
     public static class ApiConfig
     {
-        public static IServiceCollection WebApiConfig(this IServiceCollection services)
+        public static IServiceCollection AddApiConfig(this IServiceCollection services)
         {
             services.AddControllers();
 
@@ -21,8 +23,7 @@ namespace EasyOrder.Api.Configuration
                 options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.ReportApiVersions = true; //Avisa se a API esta obsoleta
             });
-
-            //TODO: verificar nova sintaxe
+     
             services.AddVersionedApiExplorer(options =>
             {
                 options.GroupNameFormat = "'v'VVV";
@@ -52,14 +53,33 @@ namespace EasyOrder.Api.Configuration
                     .AllowAnyHeader());
             });
 
+            //services.AddHealthChecks()
+               // .AddSqlServer(Configuration.GetConnectionString("DefaultConnection"), name: "BancoSQL");
+            //services.AddHealthChecksUI();
+
             return services;
         }
 
-        public static IApplicationBuilder UseMvcConfiguration(this IApplicationBuilder app)
+        public static IApplicationBuilder UseApiConfig(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseRouting();
+            if (env.IsDevelopment())
+            {
+                app.UseCors("Development");
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseCors("Production");
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

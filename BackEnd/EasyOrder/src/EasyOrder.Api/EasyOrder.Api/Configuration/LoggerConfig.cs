@@ -2,23 +2,18 @@
 using KissLog.AspNetCore;
 using KissLog.CloudListeners.Auth;
 using KissLog.CloudListeners.RequestLogsListener;
-using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System;
+using KissLog;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
-using KissLog;
+using System.Text;
+using System.Diagnostics;
 
 namespace EasyOrder.Api.Configuration
 {
-    public static class LogConfig
+    public static class LoggerConfig
     {
         public static IServiceCollection AddLoggingConfig(this IServiceCollection services, IConfiguration configuration)
         {
@@ -38,7 +33,7 @@ namespace EasyOrder.Api.Configuration
         {
             app.UseKissLogMiddleware(options =>
             {
-                LogConfig.ConfigureKissLog(options, configuration);
+                LoggerConfig.ConfigureKissLog(options, configuration);
             });
 
             return app;

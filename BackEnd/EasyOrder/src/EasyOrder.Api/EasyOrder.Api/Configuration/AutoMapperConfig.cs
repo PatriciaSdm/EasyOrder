@@ -13,6 +13,7 @@ namespace EasyOrder.Api.Configuration
         public AutoMapperConfig()
         {
             CreateMap<Category, CategoryViewModel>().ReverseMap();
+            CreateMap<Extra, ExtraViewModel>().ReverseMap();
         }
     }
 }
