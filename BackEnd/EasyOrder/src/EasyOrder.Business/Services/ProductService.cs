@@ -25,6 +25,16 @@ namespace EasyOrder.Business.Services
             return await _productRepository.GetAll();
         }
 
+        public Task<Product> GetById(Guid id)
+        {
+            return _productRepository.GetById(id);
+        }
+
+        public Task<IEnumerable<Product>> GetByCategoryId(Guid id)
+        {
+            return _productRepository.GetByIdCategory(id);
+        }
+
         public async Task<bool> Include(Product product)
         {
             if (!ExecutarValidacao(new ProductValidation(), product)) return false;
@@ -37,17 +47,6 @@ namespace EasyOrder.Business.Services
 
             await _productRepository.Include(product);
             return true;
-        }
-
-
-        public void Dispose()
-        {
-            _productRepository?.Dispose();
-        }
-
-        public Task<IEnumerable<Product>> GetByCategoryId(Guid id)
-        {
-            return _productRepository.GetByIdCategory(id);
         }
 
         public async Task<bool> Update(Product product)
@@ -64,9 +63,9 @@ namespace EasyOrder.Business.Services
             return true;
         }
 
-        public Task<Product> GetById(Guid id)
+        public void Dispose()
         {
-            return _productRepository.GetById(id);
+            _productRepository?.Dispose();
         }
     }
 }
