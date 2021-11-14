@@ -1,0 +1,82 @@
+<mat-sidenav-container autosize>
+    <mat-sidenav #sidenav mode="side" opened="true">
+        <mat-nav-list>
+
+            <mat-list-item (click)="isExpanded = !isExpanded">
+                <mat-icon mat-list-icon class="chevron-button sidenav-button" [ngClass]="{'rotated': isExpanded}">
+                    chevron_right</mat-icon>
+            </mat-list-item>
+
+            <mat-list-item *ngIf="isExpanded" [routerLink]="'nova-comanda'">
+                <mat-icon mat-list-icon>border_color</mat-icon>
+                <span>Nova Comanda</span>
+            </mat-list-item>
+
+            <mat-list-item *ngIf="isExpanded" [routerLink]="'painel-pedidos'">
+                <mat-icon mat-list-icon>important_devices</mat-icon>
+                <span>Painel de Pedidos</span>
+            </mat-list-item>
+
+            <mat-list-item *ngIf="isExpanded" [routerLink]="'comandas'">
+                <mat-icon mat-list-icon>receipt_long</mat-icon>
+                <span>Comandas</span>
+            </mat-list-item>
+
+            <mat-accordion *ngIf="isExpanded">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon mat-list-icon>category</mat-icon>
+                            <span>Produtos</span>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <div *ngIf="isExpanded">
+                        <mat-list-item [routerLink]="'produtos'">
+                            <span>Produtos</span>
+                        </mat-list-item>
+                        <mat-list-item [routerLink]="'categorias'">
+                            <span>Categorias</span>
+                        </mat-list-item>
+                        <mat-list-item [routerLink]="'adicionais'">
+                            <span>Adicionais</span>
+                        </mat-list-item>
+                    </div>
+
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <mat-accordion *ngIf="isExpanded">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon mat-list-icon>admin_panel_settings</mat-icon>
+                            <span>Administração</span>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <div *ngIf="isExpanded">
+                        <mat-list-item [routerLink]="'usuário'">
+                            <span>Usuário</span>
+                        </mat-list-item>
+                        <mat-list-item [routerLink]="'perfil'">
+                            <span>Perfil</span>
+                        </mat-list-item>
+                        <mat-list-item [routerLink]="'permissoes'">
+                            <span>Permissões</span>
+                        </mat-list-item>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <div class="content">
+        <mat-toolbar>
+            <!-- <h4>User</h4> -->
+        </mat-toolbar>
+        <router-outlet></router-outlet>
+    </div>
+
+</mat-sidenav-container>

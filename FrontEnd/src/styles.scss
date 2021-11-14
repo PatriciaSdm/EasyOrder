@@ -1,0 +1,87 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+h1, h2, h3, h4, p, strong {
+    margin: 0 !important;
+}
+
+.conteudo {
+    max-width: 315px;
+    margin: 10px auto;
+}
+
+.example-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-button {
+   color: green;
+}
+
+.remove-button {
+    color: red;
+}
+
+mat-list div.mat-list-item-content {
+    justify-content: space-between;
+}
+
+div.mat-expansion-panel-body {
+    padding: 0.25rem;
+    text-align: center;
+}
+
+.form, .lista {
+    max-width: 520px;
+    margin: 0 auto;
+    h2 {
+        text-align: center;
+        margin: 0.5rem 0;
+    }
+    
+    button {
+        &:first-child {
+            margin-right: 0.5rem;
+        }
+    }
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-step-header {
+    margin-bottom: 0.5rem;
+}
+
+/* CSS das telas de cadastro */
+.main {
+    margin: 0 auto;
+    max-width: 520px;
+}
+
+section {
+    .header {
+        margin: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    button {
+        &:first-child {
+            margin-right: 0.5rem;
+        }
+    }
+}
+
+mat-list {
+    margin: 0.25rem;
+    background-color: white;
+    border-radius: 0.25rem;
+    max-width: 520px;
+}
+/* CSS das telas de cadastro */

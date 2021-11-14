@@ -1,0 +1,24 @@
+<section class="main">
+    <div class="header">
+        <h1>Produtos</h1>
+        <button mat-mini-fab color="primary" aria-label="Clear">
+            <mat-icon [routerLink]="['/produto-form', 0]" routerLinkActive="router-link-active">add</mat-icon>
+        </button>
+    </div>
+
+    <section class="lista">
+        <mat-list>
+            <mat-list-item *ngFor="let produto of produtos">
+                <p>{{ produto.name }}</p>
+                <div>
+                    <button mat-icon-button color="primary" aria-label="Clear" [routerLink]="['/produto-form', produto.id]" routerLinkActive="router-link-active" >
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" aria-label="Clear" (click)="deletarProduto(produto.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </mat-list-item>
+        </mat-list>
+    </section>
+</section>

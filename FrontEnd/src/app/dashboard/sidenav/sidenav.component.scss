@@ -1,0 +1,62 @@
+mat-sidenav-container {
+    height: 100%;
+  
+    mat-sidenav {
+  
+      mat-nav-list {
+  
+        .chevron-button {
+          transition: 300ms ease-in-out;
+          transform: rotate(0deg);
+          right: 0;
+          float: right;
+          position: absolute;
+        }
+  
+        .chevron-button.rotated {
+          transform: rotate(180deg);
+        }
+      }
+
+      .expansion-item {
+        height: 32px;
+        padding-left: 24px;
+        margin-bottom: 8px;
+        cursor: pointer;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+
+        p {
+          margin: 0px !important;
+        }
+      }
+
+      .expansion-item:hover {
+        background: whitesmoke;
+      }
+
+      mat-expansion-panel {
+        border-radius: 0px !important;
+        box-shadow: none !important;
+      }
+
+      mat-expansion-panel-header {
+        padding: 0px 16px;
+      }
+
+      div.mat-expansion-panel-content div.mat-expansion-panel-body {
+        padding: 0px;
+      }
+
+      .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+        align-items: center !important;
+
+        mat-icon {
+          padding: 4px;
+        }
+      }
+    }
+}
