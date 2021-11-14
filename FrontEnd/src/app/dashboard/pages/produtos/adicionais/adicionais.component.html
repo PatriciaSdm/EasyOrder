@@ -1,0 +1,23 @@
+<section class="main">
+    <div class="header">
+        <h1>Adicionais</h1>
+        <button mat-mini-fab color="primary" aria-label="Clear">
+            <mat-icon [routerLink]="['/adicionais-form']" routerLinkActive="router-link-active">add</mat-icon>
+        </button>
+    </div>
+
+    <section class="lista">
+        <mat-list>
+            <mat-list-item>
+                <p>Cerveja</p>
+                <div>
+                    <button mat-icon-button color="primary" aria-label="Clear">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <mat-slide-toggle color="warn">
+                    </mat-slide-toggle>
+                </div>
+            </mat-list-item>
+        </mat-list>
+    </section>
+</section>

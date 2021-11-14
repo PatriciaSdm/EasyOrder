@@ -1,0 +1,64 @@
+{
+  "produtos": {
+    "bebidas": [
+      {
+        "name": "Bera",
+        "category": "Bebidas",
+        "details": "Sem álcool",
+        "id": 3
+      },
+      {
+        "id": 4,
+        "name": "Água 200ml",
+        "category": "Bebidas",
+        "details": "Sem álcool"
+      },
+      {
+        "name": "Suco",
+        "category": "Bebidas",
+        "details": "sem açúcar",
+        "id": 5
+      }
+    ],
+    "pasteis": [
+      {
+        "name": "Camarão",
+        "category": "Pasteis",
+        "details": "Muito recheio\n",
+        "id": 6
+      },
+      {
+        "name": "Carne c/ ovo",
+        "category": "Pasteis",
+        "details": "Muito recheio\n",
+        "id": 6
+      },
+      {
+        "name": "Queijo",
+        "category": "Pasteis",
+        "details": "Muito recheio\n",
+        "id": 6
+      }
+    ],
+    "pizzas": [
+      {
+        "name": "Quatro Queijos",
+        "category": "Pizza",
+        "details": "Sem lactose\n",
+        "id": 7
+      },
+      {
+        "name": "Strogonoff",
+        "category": "Pizza",
+        "details": "Sem lactose\n",
+        "id": 7
+      },
+      {
+        "name": "Paulista",
+        "category": "Pizza",
+        "details": "Sem lactose\n",
+        "id": 7
+      }
+    ]
+  }
+}

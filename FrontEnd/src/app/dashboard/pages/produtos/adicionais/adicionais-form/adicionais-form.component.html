@@ -1,0 +1,22 @@
+<section class="form">
+    <h2>Cadastro de Adicionais</h2>
+    <mat-vertical-stepper [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Nome do Adicional</ng-template>
+                <mat-form-field appearance="fill">
+                    <mat-label>Adicional</mat-label>
+                    <input matInput placeholder="" formControlName="firstCtrl" required>
+                </mat-form-field>
+                <div class="adicionais-list">
+                    <mat-checkbox>Pizza</mat-checkbox>
+                    <mat-checkbox>Hambúrgueres</mat-checkbox>
+                    <mat-checkbox>Bebidas</mat-checkbox>
+                </div>
+                <div>
+                    <button mat-flat-button color="primary" matStepperNext>Salvar</button>
+                </div>
+            </form>
+        </mat-step>
+    </mat-vertical-stepper>
+</section>
