@@ -16,6 +16,7 @@ namespace EasyOrder.Data.Context
         public DbSet<Extra> Extras { get; set; }
         public DbSet<CategoryExtra> CategoryExtras { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<ItemExtra> ItemExtras { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
 
@@ -30,6 +31,11 @@ namespace EasyOrder.Data.Context
 
             //Desabilita delete cascade
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+
+            //Gera sequencia
+            modelBuilder.HasSequence<int>("OrderNumbers", schema: "shared")
+            .StartsAt(1)
+            .IncrementsBy(1);
 
             base.OnModelCreating(modelBuilder);
         }

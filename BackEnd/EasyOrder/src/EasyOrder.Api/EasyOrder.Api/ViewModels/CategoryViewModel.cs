@@ -15,7 +15,7 @@ namespace EasyOrder.Api.ViewModels
         //[StringLength(1000, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        //[Required(ErrorMessage = "O campo {0} é obrigatório")]
         public bool Active { get; set; }
     }
 }

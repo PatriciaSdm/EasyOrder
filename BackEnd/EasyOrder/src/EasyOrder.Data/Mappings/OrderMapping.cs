@@ -24,13 +24,17 @@ namespace EasyOrder.Data.Mappings
             builder.Property(x => x.Status)
                 .IsRequired();
 
-            builder.Property(x => x.Number) //Incremental
-                .IsRequired()
-                .ValueGeneratedOnAdd();
+            builder
+            .Property(o => o.Number)
+            .HasDefaultValueSql("NEXT VALUE FOR shared.OrderNumbers");
 
-           // moddelBuilder.HasSequence<int>("Order").StartsAt(100).IncrementsBy(1);
-           // builder.Property(o => o.Number).HasDefaultValueSql("NEXT VALUE FOR Number");
-         
+            //builder.Property(x => x.Number) //Incremental
+            //    .IsRequired()
+            //    .ValueGeneratedOnAdd();
+
+            // moddelBuilder.HasSequence<int>("Order").StartsAt(100).IncrementsBy(1);
+            // builder.Property(o => o.Number).HasDefaultValueSql("NEXT VALUE FOR Number");
+
 
             // 1 : N => Order : Items
             builder.HasMany(f => f.Items)

@@ -29,10 +29,15 @@ namespace EasyOrder.Data.Mappings
               .IsRequired();
 
             // N : N => Items : Extras
-            builder
-                .HasMany(p => p.Extras)
-                .WithMany(p => p.Items)
-                .UsingEntity(j => j.ToTable("ItemsExtras"));
+            //builder
+            //    .HasMany(p => p.Extras)
+            //    .WithMany(p => p.Items)
+            //    .UsingEntity(j => j.ToTable("ItemsExtras"));
+
+            // 1 : N => Item : Extra
+            builder.HasMany(f => f.ItemExtras)
+                .WithOne(p => p.Item)
+                .HasForeignKey(p => p.IdItem);
 
             builder.ToTable("Items");
         }

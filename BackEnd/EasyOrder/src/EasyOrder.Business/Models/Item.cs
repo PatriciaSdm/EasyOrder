@@ -1,6 +1,7 @@
 ﻿using EasyOrder.Business.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace EasyOrder.Business.Models
@@ -14,8 +15,15 @@ namespace EasyOrder.Business.Models
         public StatusItem Status { get; set; }
 
         /* EF Relations */
+        [ForeignKey("IdOrder")]
         public Order Order { get; set; }
+        [ForeignKey("IdProduct")]
         public Product Product { get; set; }
-        public ICollection<Extra> Extras { get; set; }
+        public ICollection<ItemExtra> ItemExtras { get; set; }
+
+        public Item()
+        {
+            Status = StatusItem.New;
+        }
     }
 }
