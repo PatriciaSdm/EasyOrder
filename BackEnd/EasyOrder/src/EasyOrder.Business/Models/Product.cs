@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace EasyOrder.Business.Models
@@ -14,6 +15,7 @@ namespace EasyOrder.Business.Models
 
 
         /* EF Relations */
+        [ForeignKey("IdCategory")]
         public Category Category { get; set; }
         public ICollection<Item> Items { get; set; }
 

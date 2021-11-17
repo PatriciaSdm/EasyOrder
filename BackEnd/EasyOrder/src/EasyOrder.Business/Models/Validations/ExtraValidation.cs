@@ -14,7 +14,7 @@ namespace EasyOrder.Business.Models.Validations
                .Length(2, 100)
                .WithMessage("O campo {PropertyName} precisa ter entre {MinLength} e {MaxLength} caracteres");
 
-            RuleFor(x => x.Categories)
+            RuleFor(x => x.CategoryExtras)
                 .NotEmpty().WithMessage("É necessário fornecer no minimo uma {PropertyName}");
         }
     }

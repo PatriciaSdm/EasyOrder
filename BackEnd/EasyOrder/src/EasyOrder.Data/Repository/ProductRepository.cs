@@ -18,9 +18,23 @@ namespace EasyOrder.Data.Repository
             
         }
 
+        public async Task<Product> GetWithCategory(Guid id)
+        {
+            return await Db.Products
+                .Include(x => x.Category)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<List<Product>> GetWithCategory()
+        {
+            return await Db.Products
+                .Include(x => x.Category)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Product>> GetByIdCategory(Guid idCategory)
         {
-            return await Db.Products.Where(x => x.IdCategory == idCategory).ToListAsync();
+            return await DbSet.Where(x => x.IdCategory == idCategory).ToListAsync();
         }
 
         public virtual async Task UpdateAll(List<Product> entities)

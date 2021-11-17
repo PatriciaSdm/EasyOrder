@@ -8,6 +8,8 @@ namespace EasyOrder.Business.Interfaces.Services
 {
     public interface IProductService : IDisposable
     {
+        Task<Product> GetWithCategory(Guid id);
+        Task<List<Product>> GetWithCategory();
         Task<bool> Include(Product product);
         Task<IEnumerable<Product>> GetByCategoryId(Guid id);
         Task<List<Product>> GetAll();
