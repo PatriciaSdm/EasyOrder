@@ -4,14 +4,16 @@ using EasyOrder.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EasyOrder.Data.Migrations
 {
     [DbContext(typeof(EasyOrderContext))]
-    partial class EasyOrderContextModelSnapshot : ModelSnapshot
+    [Migration("20211116135617_UpdatingRelation")]
+    partial class UpdatingRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,13 +41,19 @@ namespace EasyOrder.Data.Migrations
 
             modelBuilder.Entity("EasyOrder.Business.Models.CategoryExtra", b =>
                 {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("IdCategory")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("IdExtra")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("IdCategory", "IdExtra");
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdCategory");
 
                     b.HasIndex("IdExtra");
 

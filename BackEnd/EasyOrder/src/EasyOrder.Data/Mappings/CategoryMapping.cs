@@ -22,10 +22,10 @@ namespace EasyOrder.Data.Mappings
                 .IsRequired();
 
             // N : N => Categories : Extras
-            builder
-                .HasMany(p => p.Extras)
-                .WithMany(p => p.Categories)
-                .UsingEntity(j => j.ToTable("CategoriesExtras"));
+            //builder
+            //    .HasMany(p => p.Extras)
+            //    .WithMany(p => p.Categories)
+            //    .UsingEntity(j => j.ToTable("CategoriesExtras"));
 
             builder.ToTable("Categories");
         }

@@ -20,7 +20,7 @@ namespace EasyOrder.Api.ViewModels
         public decimal Price { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        public Guid IdCategory { get; set; }
+        public CategoryViewModel Category { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public bool Active { get; set; }

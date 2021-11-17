@@ -41,13 +41,13 @@ namespace EasyOrder.Data.Repository
 
         public virtual async Task Include(TEntity entity)
         {
-            DbSet.Add(entity.Clone());
+            DbSet.Add(entity);
             await SaveChanges();
         }
 
         public virtual async Task Update(TEntity entity)
         {
-            DbSet.Update(entity.Clone());
+            DbSet.Update(entity);
             await SaveChanges();
         }
 

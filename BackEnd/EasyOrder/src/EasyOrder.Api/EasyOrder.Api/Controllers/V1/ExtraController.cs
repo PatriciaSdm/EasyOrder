@@ -51,11 +51,21 @@ namespace EasyOrder.Api.V1.Controllers
             return Ok(extra);
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet("with-categories/{id:guid}")]
-        public async Task<ActionResult<IEnumerable<ExtraViewModel>>> GetWithCategories(Guid id)
+        public async Task<ActionResult<ExtraViewModel>> GetWithCategories(Guid id)
         {
             var extra = _mapper.Map<ExtraViewModel>(await _extraService.GetWithCategories(id));
+            if (extra == null) return NotFound();
+
+            return Ok(extra);
+        }
+
+
+        [HttpGet("with-categories")]
+        public async Task<ActionResult<IEnumerable<ExtraViewModel>>> GetWithCategories()
+        {
+            var extra = _mapper.Map<IEnumerable<ExtraViewModel>>(await _extraService.GetWithCategories());
             if (extra == null) return NotFound();
 
             return Ok(extra);
@@ -73,15 +83,15 @@ namespace EasyOrder.Api.V1.Controllers
             return CustomResponse(extraViewModel);
         }
 
-        [ClaimsAuthorize("Extras", "Update")]
-        [HttpPut("{id:guid}")]
-        public async Task<ActionResult<ExtraViewModel>> Update(Guid id, ExtraViewModel extraViewModel)
+        //[ClaimsAuthorize("Extras", "Update")]
+        [HttpPut]
+        public async Task<ActionResult<ExtraViewModel>> Update(ExtraViewModel extraViewModel)
         {
-            if (id != extraViewModel.Id)
-            {
-                NotifyError("O id informado não é o mesmo que foi passado na query");
-                return CustomResponse(extraViewModel);
-            }
+            //if (id != extraViewModel.Id)
+            //{
+            //    NotifyError("O id informado não é o mesmo que foi passado na query");
+            //    return CustomResponse(extraViewModel);
+            //}
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 

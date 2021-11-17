@@ -22,7 +22,7 @@ namespace EasyOrder.Business.Services
 
         public async Task<List<Product>> GetAll()
         {
-            return await _productRepository.GetAll();
+          return await _productRepository.GetAll();
         }
 
         public Task<Product> GetById(Guid id)
@@ -66,6 +66,18 @@ namespace EasyOrder.Business.Services
         public void Dispose()
         {
             _productRepository?.Dispose();
+        }
+
+        public async Task<Product> GetWithCategory(Guid id)
+        {
+            var teste = await _productRepository.GetWithCategory(id);
+            return await _productRepository.GetWithCategory(id);
+        }
+
+        public async Task<List<Product>> GetWithCategory()
+        {
+            var teste = await _productRepository.GetWithCategory();
+            return await _productRepository.GetWithCategory();
         }
     }
 }

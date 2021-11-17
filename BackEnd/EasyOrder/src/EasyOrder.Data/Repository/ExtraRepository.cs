@@ -17,10 +17,24 @@ namespace EasyOrder.Data.Repository
         {
         }
 
-        public async Task<IEnumerable<Extra>> GetWithCategories(Guid id)
+        public virtual async Task Get(Extra entity)
         {
-            return await Db.Extras.Where(x => x.Id == id)
-                .Include(x => x.Categories)
+            DbSet.Update(entity);
+            await SaveChanges();
+        }
+        public async Task<Extra> GetWithCategories(Guid id)
+        {
+            return await Db.Extras
+                .Include(x => x.CategoryExtras)
+                .ThenInclude(x => x.Category)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<Extra>> GetWithCategories()
+        {
+            return await Db.Extras
+                .Include(x => x.CategoryExtras)
+                .ThenInclude(x => x.Category)
                 .ToListAsync();
         }
     }

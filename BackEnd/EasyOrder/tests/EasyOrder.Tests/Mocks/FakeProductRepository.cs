@@ -55,16 +55,6 @@ namespace Zombie.Tests.Mocks
             return Task.Run(() => _products.RemoveAll(x => x.Id == id));
         }
 
-        public Task<int> SaveChanges()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<IEnumerable<Product>> GetByIdCategory(Guid idCategory)
         {
             return Task.Run(() => _products.Where(x => x.IdCategory == idCategory));
@@ -78,6 +68,26 @@ namespace Zombie.Tests.Mocks
                 entityFromList = product.Clone();
             }
             return Task.Run(() => _products.Where(x => products.Select(y => y.Id).Contains(x.Id)));
+        }
+
+        public Task<int> SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Product> GetWithCategory(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Product>> GetWithCategory()
+        {
+            throw new NotImplementedException();
         }
     }
 }

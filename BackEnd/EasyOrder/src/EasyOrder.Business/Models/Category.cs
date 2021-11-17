@@ -10,6 +10,6 @@ namespace EasyOrder.Business.Models
         public bool Active { get; set; }
 
         /*EF Relations*/
-        public ICollection<Extra> Extras { get; set; }
+        public virtual ICollection<CategoryExtra> CategoryExtras { get; set; }
     }
 }

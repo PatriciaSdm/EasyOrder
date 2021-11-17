@@ -33,15 +33,7 @@ namespace EasyOrder.Api.V1.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetAll()
-        {
-            var products = _mapper.Map<IEnumerable<ProductViewModel>>(await _productService.GetAll());
 
-            return Ok(products);
-        }
-
-        [AllowAnonymous]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> Get(Guid id)
         {
@@ -50,6 +42,32 @@ namespace EasyOrder.Api.V1.Controllers
 
             return Ok(product);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetAll()
+        {
+            var products = _mapper.Map<IEnumerable<ProductViewModel>>(await _productService.GetAll());
+
+            return Ok(products);
+        }
+
+        [HttpGet("with-categories/{id:guid}")]
+        public async Task<ActionResult<ProductViewModel>> GetWithCategory(Guid id)
+        {
+            var product = _mapper.Map<ProductViewModel>(await _productService.GetWithCategory(id));
+            if (product == null) return NotFound();
+
+            return Ok(product);
+        }
+
+        [HttpGet("with-categories")]
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetWithCategory()
+        {
+            var products = _mapper.Map<IEnumerable<ProductViewModel>>(await _productService.GetWithCategory());
+
+            return Ok(products);
+        }
+
      
         [HttpPost]
         public async Task<ActionResult<ProductViewModel>> Include(ProductViewModel productViewModel)
@@ -62,15 +80,9 @@ namespace EasyOrder.Api.V1.Controllers
             return CustomResponse(productViewModel);
         }
 
-        [ClaimsAuthorize("Products", "Update")]
-        [HttpPut("{id:guid}")]
-        public async Task<ActionResult<ProductViewModel>> Update(Guid id, ProductViewModel productViewModel)
+        [HttpPut]
+        public async Task<ActionResult<ProductViewModel>> Update(ProductViewModel productViewModel)
         {
-            if (id != productViewModel.Id)
-            {
-                NotifyError("O id informado não é o mesmo que foi passado na query");
-                return CustomResponse(productViewModel);
-            }
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 

@@ -9,6 +9,8 @@ namespace EasyOrder.Business.Interfaces.Repositories
 {
     public interface IProductRepository : IRepository<Product>
     {
+        Task<Product> GetWithCategory(Guid id);
+        Task<List<Product>> GetWithCategory();
         Task<IEnumerable<Product>> GetByIdCategory(Guid idCategory);
         Task UpdateAll(List<Product> entities);
     }
