@@ -20,6 +20,6 @@ namespace EasyOrder.Api.ViewModels
         public bool Active { get; set; }
 
         [Required(ErrorMessage = "É necessário fornecer no minimo uma {0}")]
-        public IEnumerable<Category> Categories { get; set; }
+        public IEnumerable<CategoryViewModel> Categories { get; set; }
     }
 }

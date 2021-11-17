@@ -51,7 +51,7 @@ namespace EasyOrder.Api.V1.Controllers
             return Ok(category);
         }
 
-        [ClaimsAuthorize("Categories", "Include")]
+        //[ClaimsAuthorize("Categories", "Include")]
         [HttpPost]
         public async Task<ActionResult<CategoryViewModel>> Include(CategoryViewModel categoryViewModel)
         {
@@ -66,7 +66,7 @@ namespace EasyOrder.Api.V1.Controllers
             return CustomResponse(categoryViewModel);
         }
 
-        [ClaimsAuthorize("Categories", "Update")]
+        //[ClaimsAuthorize("Categories", "Update")]
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<CategoryViewModel>> Update(Guid id, CategoryViewModel categoryViewModel)
         {

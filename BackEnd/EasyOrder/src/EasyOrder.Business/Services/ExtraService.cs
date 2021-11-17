@@ -14,10 +14,13 @@ namespace EasyOrder.Business.Services
     public class ExtraService : Service, IExtraService
     {
         private readonly IExtraRepository _extraRepository;
+        private readonly ICategoryRepository _categoryRepository;
         public ExtraService(INotifier notifier,
-                              IExtraRepository extraRepository) : base(notifier)
+                              IExtraRepository extraRepository,
+                              ICategoryRepository categoryRepository) : base(notifier)
         {
             _extraRepository = extraRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<List<Extra>> GetAll()
@@ -49,6 +52,8 @@ namespace EasyOrder.Business.Services
                 return false;
             }
 
+            // TODO: Update child relationship
+
             await _extraRepository.Update(extra);
             return true;
         }
@@ -58,7 +63,12 @@ namespace EasyOrder.Business.Services
             return await _extraRepository.GetById(id);
         }
 
-        public async Task<IEnumerable<Extra>> GetWithCategories(Guid id)
+        public async Task<IEnumerable<Extra>> GetWithCategories()
+        {
+            return await _extraRepository.GetWithCategories();
+        }
+
+        public async Task<Extra> GetWithCategories(Guid id)
         {
           return  await _extraRepository.GetWithCategories(id);
         }
@@ -67,6 +77,5 @@ namespace EasyOrder.Business.Services
         {
             _extraRepository?.Dispose();
         }
-
     }
 }

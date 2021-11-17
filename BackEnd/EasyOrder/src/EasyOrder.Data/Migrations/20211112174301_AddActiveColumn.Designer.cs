@@ -4,20 +4,37 @@ using EasyOrder.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EasyOrder.Data.Migrations
 {
     [DbContext(typeof(EasyOrderContext))]
-    partial class EasyOrderContextModelSnapshot : ModelSnapshot
+    [Migration("20211112174301_AddActiveColumn")]
+    partial class AddActiveColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CategoryExtra", b =>
+                {
+                    b.Property<Guid>("CategoriesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ExtrasId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CategoriesId", "ExtrasId");
+
+                    b.HasIndex("ExtrasId");
+
+                    b.ToTable("CategoriesExtras");
+                });
 
             modelBuilder.Entity("EasyOrder.Business.Models.Category", b =>
                 {
@@ -35,21 +52,6 @@ namespace EasyOrder.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("EasyOrder.Business.Models.CategoryExtra", b =>
-                {
-                    b.Property<Guid>("IdCategory")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("IdExtra")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("IdCategory", "IdExtra");
-
-                    b.HasIndex("IdExtra");
-
-                    b.ToTable("CategoryExtras");
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.Extra", b =>
@@ -182,21 +184,17 @@ namespace EasyOrder.Data.Migrations
                     b.ToTable("ItemsExtras");
                 });
 
-            modelBuilder.Entity("EasyOrder.Business.Models.CategoryExtra", b =>
+            modelBuilder.Entity("CategoryExtra", b =>
                 {
-                    b.HasOne("EasyOrder.Business.Models.Category", "Category")
-                        .WithMany("CategoryExtras")
-                        .HasForeignKey("IdCategory")
+                    b.HasOne("EasyOrder.Business.Models.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
                         .IsRequired();
 
-                    b.HasOne("EasyOrder.Business.Models.Extra", "Extra")
-                        .WithMany("CategoryExtras")
-                        .HasForeignKey("IdExtra")
+                    b.HasOne("EasyOrder.Business.Models.Extra", null)
+                        .WithMany()
+                        .HasForeignKey("ExtrasId")
                         .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Extra");
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.Item", b =>
@@ -236,16 +234,6 @@ namespace EasyOrder.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ItemsId")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("EasyOrder.Business.Models.Category", b =>
-                {
-                    b.Navigation("CategoryExtras");
-                });
-
-            modelBuilder.Entity("EasyOrder.Business.Models.Extra", b =>
-                {
-                    b.Navigation("CategoryExtras");
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.Order", b =>

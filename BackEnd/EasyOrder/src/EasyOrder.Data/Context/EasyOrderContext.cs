@@ -1,5 +1,6 @@
 ﻿using EasyOrder.Business.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 namespace EasyOrder.Data.Context
@@ -13,6 +14,7 @@ namespace EasyOrder.Data.Context
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Extra> Extras { get; set; }
+        public DbSet<CategoryExtra> CategoryExtras { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
