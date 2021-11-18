@@ -52,6 +52,31 @@ namespace EasyOrder.Business.Services
                 return false;
             }
 
+            var model = _extraRepository.GetWithCategories();
+
+            ////Itens removidos do Front
+            //var teste = model.Items.ToList().RemoveAll(x => {
+            //    var itensremover = !order.Items.Select(y => y.Id).Contains(x.Id);
+            //    return !order.Items.Select(y => y.Id).Contains(x.Id);
+            //});
+
+            ////Itens novos
+            //model.Items.ToList().AddRange(order.Items.Where(x => !model.Items.Select(y => y.Id).Contains(x.Id)));
+
+            ////Itens pra atualizar
+            //model.Items.ToList().ForEach(x =>
+            //{
+            //    var item = order.Items.FirstOrDefault(y => y.Id == x.Id);
+            //    if (item != null)
+            //    {
+            //        x.Quantity = item.Quantity;
+            //        x.Observation = item.Observation;
+            //        x.Status = item.Status;
+            //        UpdateExtrasList(item.ItemExtras, x.ItemExtras);
+            //    }
+            //});
+
+
             // TODO: Update child relationship
 
             await _extraRepository.Update(extra);
