@@ -1,24 +1,48 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
-import { BehaviorSubject, Observable, throwError } from "rxjs";
-import { map, catchError } from "rxjs/operators";
+import { BehaviorSubject, from, Observable, throwError } from "rxjs";
+import { map, catchError, groupBy } from "rxjs/operators";
 import { Produto } from '../models/Produto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProdutoService {
-  private apiPath: string = "http://localhost:3000/produtos";
-  public produtos$ = new BehaviorSubject<Produto[]>([]);
+  private apiPath: string = "https://localhost:44384/api/v1/products";
+  private produtos = new BehaviorSubject<Produto[]>([]);
+  private auth_token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMzI4MWM0My1lNjAwLTQ1YWQtOTliYi1mM2ZmYWI0NDU2NjUiLCJlbWFpbCI6ImZlbGlwZS5ndWl6em9AbGFic2l0LmlvIiwianRpIjoiMGVmNWYyMGMtNTk3Mi00YzA0LTgzNWQtMjE1OWZlYTIwODUwIiwibmJmIjoxNjM3MjQwMzQ4LCJpYXQiOjE2MzcyNDAzNDgsImV4cCI6MTYzNzI1ODM0OCwiaXNzIjoiRWFzeU9yZGVyIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3QifQ.g2vI_7cm_gyTydJU2tMVLMTmW6gKaZ4Zt18iHuIe9gI'
 
   constructor(private http: HttpClient) { }
 
+  getHeaders(): HttpHeaders {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.auth_token}`
+    })
+    return headers;
+  }
+
   get(): Observable<Produto[]> {
-    return this.http.get(this.apiPath).pipe(
+    const header = this.getHeaders();
+    return this.http.get(`${this.apiPath}/with-categories`, { headers: header }).pipe(
       catchError(this.handleError),
       map(this.jsonDataToResources),
     )
+  }
+
+  // get(): Observable<Produto[]> {
+  //   const header = this.getHeaders();
+  //   const response = this.http.get<Produto[]>(this.apiPath, { headers: header });
+  //   return response;
+  // }
+
+  getProdutos(): Observable<Produto[]> {
+    return this.produtos.asObservable();
+  }
+
+  setProdutos(produtos: Produto[]): void {
+    this.produtos.next(produtos);
   }
 
   getById(id: string): Observable<Produto> {
