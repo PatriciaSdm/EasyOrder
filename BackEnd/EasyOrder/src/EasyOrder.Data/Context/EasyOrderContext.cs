@@ -33,11 +33,20 @@ namespace EasyOrder.Data.Context
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
 
             //Gera sequencia
-            modelBuilder.HasSequence<int>("OrderNumbers", schema: "shared")
-            .StartsAt(1)
-            .IncrementsBy(1);
+            SequencesConfiguration(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        private static void SequencesConfiguration(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .HasSequence<int>("NumberOrder")
+                .HasMin(1);
+
+            modelBuilder
+                .HasSequence<int>("ProductCode")
+                .HasMin(1);
         }
     }
 }

@@ -7,13 +7,6 @@ namespace EasyOrder.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "shared");
-
-            migrationBuilder.CreateSequence<int>(
-                name: "OrderNumbers",
-                schema: "shared");
-
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
@@ -48,7 +41,7 @@ namespace EasyOrder.Data.Migrations
                     Name = table.Column<string>(type: "varchar(200)", nullable: false),
                     Table = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    Number = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR shared.OrderNumbers"),
+                    Number = table.Column<int>(type: "int", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Subtotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -66,6 +59,7 @@ namespace EasyOrder.Data.Migrations
                     Name = table.Column<string>(type: "varchar(200)", nullable: false),
                     Description = table.Column<string>(type: "varchar(1000)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     IdCategory = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -204,10 +198,6 @@ namespace EasyOrder.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropSequence(
-                name: "OrderNumbers",
-                schema: "shared");
         }
     }
 }

@@ -4,26 +4,22 @@ using EasyOrder.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EasyOrder.Data.Migrations
 {
     [DbContext(typeof(EasyOrderContext))]
-    partial class EasyOrderContextModelSnapshot : ModelSnapshot
+    [Migration("20211118175551_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.HasSequence<int>("NumberOrder")
-                .HasMin(1L);
-
-            modelBuilder.HasSequence<int>("ProductCode")
-                .HasMin(1L);
 
             modelBuilder.Entity("EasyOrder.Business.Models.Category", b =>
                 {
@@ -135,9 +131,7 @@ namespace EasyOrder.Data.Migrations
                         .HasColumnType("varchar(200)");
 
                     b.Property<int>("Number")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR NumberOrder");
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -166,9 +160,7 @@ namespace EasyOrder.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("Code")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR ProductCode");
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(1000)");

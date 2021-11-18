@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyOrder.Data.Migrations
 {
     [DbContext(typeof(EasyOrderContext))]
-    [Migration("20211117173557_Initial")]
-    partial class Initial
+    [Migration("20211118182603_Sequence")]
+    partial class Sequence
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,11 @@ namespace EasyOrder.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.HasSequence<int>("OrderNumbers", "shared");
+            modelBuilder.HasSequence<int>("NumberOrder")
+                .HasMin(1L);
+
+            modelBuilder.HasSequence<int>("ProductCode")
+                .HasMin(1L);
 
             modelBuilder.Entity("EasyOrder.Business.Models.Category", b =>
                 {
@@ -135,7 +139,7 @@ namespace EasyOrder.Data.Migrations
                     b.Property<int>("Number")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR shared.OrderNumbers");
+                        .HasDefaultValueSql("NEXT VALUE FOR NumberOrder");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -162,6 +166,11 @@ namespace EasyOrder.Data.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR ProductCode");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(1000)");
