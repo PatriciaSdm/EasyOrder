@@ -30,6 +30,11 @@ namespace EasyOrder.Data.Mappings
             builder.Property(x => x.Active)
                .IsRequired();
 
+            builder
+               .Property(o => o.Code)
+               .IsRequired()
+               .HasDefaultValueSql("NEXT VALUE FOR ProductCode");
+
             // 1 : N => Item : Product
             builder.HasMany(f => f.Items)
                 .WithOne(p => p.Product)

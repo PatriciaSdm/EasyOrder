@@ -18,4 +18,8 @@
     <ProjectReference Include="..\EasyOrder.Business\EasyOrder.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

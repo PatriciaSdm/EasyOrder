@@ -25,11 +25,16 @@ namespace EasyOrder.Api.Configuration
 
             CreateMap<ProductViewModel, Product>()
                 .ForMember(dest => dest.IdCategory, map => map.MapFrom(x => x.Category.Id))
-                .ForMember(dest => dest.Category, opt => opt.Ignore());
-
-            CreateMap<Item, ItemViewModel>().ReverseMap();
+                .ForMember(dest => dest.Category, map => map.Ignore());
 
             CreateMap<Order, OrderViewModel>().ReverseMap();
+
+            CreateMap<Item, ItemViewModel>()
+                .ForMember(dest => dest.Order, map => map.Ignore())
+                .ForMember(dest => dest.Extras, map => map.MapFrom(x => x.ItemExtras.Select(y => new ExtraViewModel() { Id = y.IdExtra, Name = (y.Extra != null ? y.Extra.Name : ""), Active = (y.Extra != null ? y.Extra.Active : false) })));
+
+            CreateMap<ItemViewModel, Item>()
+                .ForMember(dest => dest.ItemExtras, map => map.MapFrom(x => x.Extras.Select(y => new ItemExtra() { IdExtra = y.Id, IdItem = x.Id })));
         }
     }
 }

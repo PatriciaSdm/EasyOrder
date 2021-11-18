@@ -16,6 +16,7 @@ namespace EasyOrder.Data.Context
         public DbSet<Extra> Extras { get; set; }
         public DbSet<CategoryExtra> CategoryExtras { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<ItemExtra> ItemExtras { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
 
@@ -31,7 +32,21 @@ namespace EasyOrder.Data.Context
             //Desabilita delete cascade
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
 
+            //Gera sequencia
+            SequencesConfiguration(modelBuilder);
+
             base.OnModelCreating(modelBuilder);
+        }
+
+        private static void SequencesConfiguration(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .HasSequence<int>("NumberOrder")
+                .HasMin(1);
+
+            modelBuilder
+                .HasSequence<int>("ProductCode")
+                .HasMin(1);
         }
     }
 }

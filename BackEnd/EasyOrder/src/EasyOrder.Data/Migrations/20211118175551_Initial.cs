@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EasyOrder.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,8 @@ namespace EasyOrder.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "varchar(200)", nullable: false)
+                    Name = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -24,7 +25,8 @@ namespace EasyOrder.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "varchar(200)", nullable: false)
+                    Name = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,8 +41,7 @@ namespace EasyOrder.Data.Migrations
                     Name = table.Column<string>(type: "varchar(200)", nullable: false),
                     Table = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    Number = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Number = table.Column<int>(type: "int", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Subtotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -58,39 +59,40 @@ namespace EasyOrder.Data.Migrations
                     Name = table.Column<string>(type: "varchar(200)", nullable: false),
                     Description = table.Column<string>(type: "varchar(1000)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     IdCategory = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
-                        column: x => x.CategoryId,
+                        name: "FK_Products_Categories_IdCategory",
+                        column: x => x.IdCategory,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoriesExtras",
+                name: "CategoryExtras",
                 columns: table => new
                 {
-                    CategoriesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ExtrasId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    IdCategory = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdExtra = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoriesExtras", x => new { x.CategoriesId, x.ExtrasId });
+                    table.PrimaryKey("PK_CategoryExtras", x => new { x.IdCategory, x.IdExtra });
                     table.ForeignKey(
-                        name: "FK_CategoriesExtras_Categories_CategoriesId",
-                        column: x => x.CategoriesId,
+                        name: "FK_CategoryExtras_Categories_IdCategory",
+                        column: x => x.IdCategory,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CategoriesExtras_Extras_ExtrasId",
-                        column: x => x.ExtrasId,
+                        name: "FK_CategoryExtras_Extras_IdExtra",
+                        column: x => x.IdExtra,
                         principalTable: "Extras",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -125,33 +127,38 @@ namespace EasyOrder.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemsExtras",
+                name: "ItemExtras",
                 columns: table => new
                 {
-                    ExtrasId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ItemsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    IdItem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdExtra = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemsExtras", x => new { x.ExtrasId, x.ItemsId });
+                    table.PrimaryKey("PK_ItemExtras", x => new { x.IdItem, x.IdExtra });
                     table.ForeignKey(
-                        name: "FK_ItemsExtras_Extras_ExtrasId",
-                        column: x => x.ExtrasId,
+                        name: "FK_ItemExtras_Extras_IdExtra",
+                        column: x => x.IdExtra,
                         principalTable: "Extras",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ItemsExtras_Items_ItemsId",
-                        column: x => x.ItemsId,
+                        name: "FK_ItemExtras_Items_IdItem",
+                        column: x => x.IdItem,
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoriesExtras_ExtrasId",
-                table: "CategoriesExtras",
-                column: "ExtrasId");
+                name: "IX_CategoryExtras_IdExtra",
+                table: "CategoryExtras",
+                column: "IdExtra");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemExtras_IdExtra",
+                table: "ItemExtras",
+                column: "IdExtra");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_IdOrder",
@@ -164,23 +171,18 @@ namespace EasyOrder.Data.Migrations
                 column: "IdProduct");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemsExtras_ItemsId",
-                table: "ItemsExtras",
-                column: "ItemsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryId",
+                name: "IX_Products_IdCategory",
                 table: "Products",
-                column: "CategoryId");
+                column: "IdCategory");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CategoriesExtras");
+                name: "CategoryExtras");
 
             migrationBuilder.DropTable(
-                name: "ItemsExtras");
+                name: "ItemExtras");
 
             migrationBuilder.DropTable(
                 name: "Extras");
@@ -199,4 +201,3 @@ namespace EasyOrder.Data.Migrations
         }
     }
 }
-    

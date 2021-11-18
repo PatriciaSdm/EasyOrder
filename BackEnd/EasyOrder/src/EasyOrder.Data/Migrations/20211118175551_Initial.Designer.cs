@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyOrder.Data.Migrations
 {
     [DbContext(typeof(EasyOrderContext))]
-    [Migration("20211116135617_UpdatingRelation")]
-    partial class UpdatingRelation
+    [Migration("20211118175551_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,19 +41,13 @@ namespace EasyOrder.Data.Migrations
 
             modelBuilder.Entity("EasyOrder.Business.Models.CategoryExtra", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("IdCategory")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("IdExtra")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdCategory");
+                    b.HasKey("IdCategory", "IdExtra");
 
                     b.HasIndex("IdExtra");
 
@@ -108,6 +102,21 @@ namespace EasyOrder.Data.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("EasyOrder.Business.Models.ItemExtra", b =>
+                {
+                    b.Property<Guid>("IdItem")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("IdExtra")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("IdItem", "IdExtra");
+
+                    b.HasIndex("IdExtra");
+
+                    b.ToTable("ItemExtras");
+                });
+
             modelBuilder.Entity("EasyOrder.Business.Models.Order", b =>
                 {
                     b.Property<Guid>("Id")
@@ -122,9 +131,7 @@ namespace EasyOrder.Data.Migrations
                         .HasColumnType("varchar(200)");
 
                     b.Property<int>("Number")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -152,8 +159,8 @@ namespace EasyOrder.Data.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Code")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(1000)");
@@ -170,24 +177,9 @@ namespace EasyOrder.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("IdCategory");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("ExtraItem", b =>
-                {
-                    b.Property<Guid>("ExtrasId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ItemsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ExtrasId", "ItemsId");
-
-                    b.HasIndex("ItemsId");
-
-                    b.ToTable("ItemsExtras");
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.CategoryExtra", b =>
@@ -224,26 +216,31 @@ namespace EasyOrder.Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("EasyOrder.Business.Models.ItemExtra", b =>
+                {
+                    b.HasOne("EasyOrder.Business.Models.Extra", "Extra")
+                        .WithMany()
+                        .HasForeignKey("IdExtra")
+                        .IsRequired();
+
+                    b.HasOne("EasyOrder.Business.Models.Item", "Item")
+                        .WithMany("ItemExtras")
+                        .HasForeignKey("IdItem")
+                        .IsRequired();
+
+                    b.Navigation("Extra");
+
+                    b.Navigation("Item");
+                });
+
             modelBuilder.Entity("EasyOrder.Business.Models.Product", b =>
                 {
                     b.HasOne("EasyOrder.Business.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("IdCategory")
+                        .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("ExtraItem", b =>
-                {
-                    b.HasOne("EasyOrder.Business.Models.Extra", null)
-                        .WithMany()
-                        .HasForeignKey("ExtrasId")
-                        .IsRequired();
-
-                    b.HasOne("EasyOrder.Business.Models.Item", null)
-                        .WithMany()
-                        .HasForeignKey("ItemsId")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.Category", b =>
@@ -254,6 +251,11 @@ namespace EasyOrder.Data.Migrations
             modelBuilder.Entity("EasyOrder.Business.Models.Extra", b =>
                 {
                     b.Navigation("CategoryExtras");
+                });
+
+            modelBuilder.Entity("EasyOrder.Business.Models.Item", b =>
+                {
+                    b.Navigation("ItemExtras");
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.Order", b =>

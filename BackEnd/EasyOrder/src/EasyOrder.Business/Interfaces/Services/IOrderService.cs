@@ -11,8 +11,9 @@ namespace EasyOrder.Business.Interfaces.Services
         Task<bool> Include(Order order);
         Task<bool> Update(Order order);
         Task<bool> Close(Order order);
-        Task<Order> GetById(Guid id);
-        Task<Order> GetByIdWithItens(Guid id);
-        Task<List<Order>> GetAll();
+        Task<Order> Get(Guid id);
+        Task<Order> GetWithItens(Guid id);
+        Task<IEnumerable<Order>> GetWithItens();
+        Task<IEnumerable<Order>> Get();
     }
 }

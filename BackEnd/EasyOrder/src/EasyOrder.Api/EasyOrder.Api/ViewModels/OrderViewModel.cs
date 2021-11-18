@@ -10,6 +10,7 @@ namespace EasyOrder.Api.ViewModels
 {
     public class OrderViewModel
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public int Table { get; set; }
         public StatusOrder Status { get; set; }
