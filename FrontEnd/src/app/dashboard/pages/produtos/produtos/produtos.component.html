@@ -6,19 +6,42 @@
         </button>
     </div>
 
-    <section class="lista">
-        <mat-list>
-            <mat-list-item *ngFor="let produto of produtos">
-                <p>{{ produto.name }}</p>
+    <mat-expansion-panel *ngFor="let item of produtosLista">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <div class="bebidas-header">
+                    <span>{{ item.category }}</span>
+                </div>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list class="bebidas-list" *ngFor="let produto of item.products, let i = index">
+            <mat-list-item>
+                <span>{{ produto.name }}</span>
                 <div>
-                    <button mat-icon-button color="primary" aria-label="Clear" [routerLink]="['/produto-form', produto.id]" routerLinkActive="router-link-active" >
-                        <mat-icon>edit</mat-icon>
+                    <button mat-icon-button class="add-button" (click)="adicionaItem()">
+                        <mat-icon>add_circle</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" aria-label="Clear" (click)="deletarProduto(produto.id)">
-                        <mat-icon>delete</mat-icon>
+                    <button mat-icon-button class="remove-button">
+                        <mat-icon>remove_circle</mat-icon>
+                    </button>
+                    <button mat-icon-button class="visibility-button" (click)="openDescription(produto)">
+                        <mat-icon>visibility</mat-icon>
                     </button>
                 </div>
             </mat-list-item>
+            <div class="descricao" *ngIf="produto.showDescription">
+                <h3><strong>Informações</strong></h3>
+                <div>
+                    <div>
+                        <span><strong>Preço:</strong></span>
+                        <p>R$ {{ produto.price }}</p>
+                    </div>
+                    <div>
+                        <span><strong>Descrição:</strong></span>
+                        <p>{{ produto.description }}</p>
+                    </div>
+                </div>
+            </div>
         </mat-list>
-    </section>
+    </mat-expansion-panel>
 </section>

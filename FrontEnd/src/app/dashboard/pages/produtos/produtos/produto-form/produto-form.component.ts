@@ -55,7 +55,7 @@ export class ProdutoFormComponent implements OnInit {
   populaForm() {
     this.firstFormGroup.get('firstCtrl')?.setValue(this.produto.name);
     this.secondFormGroup.get('secondCtrl')?.setValue(this.produto.category);
-    this.thirdFormGroup.get('thirdCtrl')?.setValue(this.produto.details);
+    this.thirdFormGroup.get('thirdCtrl')?.setValue(this.produto.description);
   }
 
   handlerActionProduto() {
@@ -64,7 +64,7 @@ export class ProdutoFormComponent implements OnInit {
 
       produto.name = this.firstFormGroup.get('firstCtrl')?.value;
       produto.category = this.secondFormGroup.get('secondCtrl')?.value;
-      produto.details = this.thirdFormGroup.get('thirdCtrl')?.value;
+      produto.description = this.thirdFormGroup.get('thirdCtrl')?.value;
 
       this.produtoService.insert(produto).subscribe(res => {
         console.log(res);
@@ -74,7 +74,7 @@ export class ProdutoFormComponent implements OnInit {
 
       produto.name = this.firstFormGroup.get('firstCtrl')?.value;
       produto.category = this.secondFormGroup.get('secondCtrl')?.value;
-      produto.details = this.thirdFormGroup.get('thirdCtrl')?.value;
+      produto.description = this.thirdFormGroup.get('thirdCtrl')?.value;
       produto.id = this.produtoId;
 
       this.produtoService.update(produto).subscribe(res => {

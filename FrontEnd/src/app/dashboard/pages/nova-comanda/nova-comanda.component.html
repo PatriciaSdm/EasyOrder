@@ -1,168 +1,115 @@
-<div class="conteudo">
-    <mat-accordion class="example-headers-align">
-        <!-- Dados Pessoais -->
-        <mat-expansion-panel *ngIf="step === 0" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Dados pessoais
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <!-- conteudo -->
-            <form [formGroup]="firstFormGroup" class="example-form">
-                <mat-form-field appearance="legacy">
-                    <mat-label>Nome</mat-label>
-                    <input matInput formControlName="nome" required type="text" placeholder="Maria">
-                </mat-form-field>
-
-                <mat-form-field appearance="legacy">
-                    <mat-label>Mesa</mat-label>
-                    <input matInput formControlName="mesa" required type="number" placeholder="2">
-                </mat-form-field>
-            </form>
-
-            <mat-action-row>
-                <button mat-flat-button color="primary" (click)="nextStep()">Próximo</button>
-            </mat-action-row>
-        </mat-expansion-panel>
-
-        <!-- Itens Comanda -->
-        <mat-expansion-panel *ngIf="step === 1" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Itens
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <!-- Itens - bebidas -->
-            <mat-expansion-panel>
+<div>
+    <div class="conteudo">
+        <mat-accordion class="example-headers-align">
+            <!-- Dados Pessoais -->
+            <mat-expansion-panel *ngIf="step === 0" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <div class="bebidas-header">
-                            <span>Bebidas</span>
-                        </div>
+                        Dados pessoais
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <mat-list class="bebidas-list">
-                    <mat-list-item>
-                        <span>Cerveja</span>
-                        <div>
-                            <button mat-icon-button class="add-button" (click)="adicionaItem()">
-                                <mat-icon>add_circle</mat-icon>
-                            </button>
-                            <button mat-icon-button class="remove-button">
-                                <mat-icon>remove_circle</mat-icon>
-                            </button>
-                            <button mat-icon-button class="visibility-button"
-                                (click)="descriptionOpenState = !descriptionOpenState">
-                                <mat-icon>visibility</mat-icon>
-                            </button>
-                        </div>
-                    </mat-list-item>
-                    <div class="descricao" *ngIf="descriptionOpenState">
-                        <mat-divider></mat-divider>
-                        <h3><strong>Informações</strong></h3>
-                        <div>
-                            <div>
-                                <span><strong>Preço:</strong></span>
-                                <p>R$ 5,00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <mat-divider></mat-divider>
-                    <mat-list-item>
-                        <span>Refri Lata</span>
-                        <div>
-                            <button mat-icon-button class="add-button">
-                                <mat-icon>add_circle</mat-icon>
-                            </button>
-                            <button mat-icon-button class="remove-button">
-                                <mat-icon>remove_circle</mat-icon>
-                            </button>
-                            <button mat-icon-button class="visibility-button">
-                                <mat-icon>visibility</mat-icon>
-                            </button>
-                        </div>
-                    </mat-list-item>
-                    <mat-divider></mat-divider>
-                </mat-list>
+
+                <!-- conteudo -->
+                <form [formGroup]="firstFormGroup" class="example-form">
+                    <mat-form-field appearance="legacy">
+                        <mat-label>Nome</mat-label>
+                        <input matInput formControlName="nome" required type="text" placeholder="Maria">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="legacy">
+                        <mat-label>Mesa</mat-label>
+                        <input matInput formControlName="mesa" required type="number" placeholder="2">
+                    </mat-form-field>
+                </form>
+
+                <mat-action-row>
+                    <button mat-flat-button color="primary" (click)="nextStep()">Próximo</button>
+                </mat-action-row>
             </mat-expansion-panel>
 
-            <!-- Itens - Pasteis Salgados -->
-            <mat-expansion-panel>
+            <!-- Itens Comanda -->
+            <mat-expansion-panel *ngIf="step === 1" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <div class="bebidas-header">
-                            <span>Pasteis</span>
-                        </div>
+                        Itens
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <mat-list class="bebidas-list">
-                    <mat-list-item>
-                        <span>Carne c/ Ovo</span>
-                        <div>
-                            <button mat-icon-button class="add-button">
-                                <mat-icon>add_circle</mat-icon>
-                            </button>
-                            <button mat-icon-button class="remove-button">
-                                <mat-icon>remove_circle</mat-icon>
-                            </button>
-                            <button mat-icon-button class="visibility-button"
-                                (click)="descriptionOpenState = !descriptionOpenState">
-                                <mat-icon>visibility</mat-icon>
-                            </button>
-                        </div>
-                    </mat-list-item>
-                    <div class="descricao" *ngIf="descriptionOpenState">
-                        <mat-divider></mat-divider>
-                        <h3><strong>Informações</strong></h3>
-                        <div>
+                <mat-expansion-panel *ngFor="let item of produtosLista">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <div class="bebidas-header">
+                                <span>{{ item.category }}</span>
+                            </div>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list class="bebidas-list" *ngFor="let produto of item.products, let i = index">
+                        <mat-list-item>
+                            <span>{{ produto.name }}</span>
                             <div>
-                                <span><strong>Preço:</strong></span>
-                                <p>R$ 5,00</p>
+                                <button mat-icon-button class="add-button" (click)="adicionaItem()">
+                                    <mat-icon>add_circle</mat-icon>
+                                </button>
+                                <button mat-icon-button class="remove-button">
+                                    <mat-icon>remove_circle</mat-icon>
+                                </button>
+                                <button mat-icon-button class="visibility-button" (click)="openDescription(produto)">
+                                    <mat-icon>visibility</mat-icon>
+                                </button>
+                            </div>
+                        </mat-list-item>
+                        <div class="descricao" *ngIf="produto.showDescription">
+                            <h3><strong>Informações</strong></h3>
+                            <div>
+                                <div>
+                                    <span><strong>Preço:</strong></span>
+                                    <p>R$ {{ produto.price }}</p>
+                                </div>
+                                <div>
+                                    <span><strong>Descrição:</strong></span>
+                                    <p>{{ produto.description }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <mat-divider></mat-divider>
-                </mat-list>
+                    </mat-list>
+                </mat-expansion-panel>
             </mat-expansion-panel>
-        </mat-expansion-panel>
-    </mat-accordion>
+        </mat-accordion>
 
-    <div *ngIf="step === 1" class="resumo">
-        <h3><strong>Resumo</strong></h3>
-        <div class="item-adicionado">
-            <span>Cerveja</span>
-            <div>
-                <button mat-icon-button class="add-button">
-                    <mat-icon>add_circle</mat-icon>
-                </button>
-                <button mat-icon-button class="remove-button">
-                    <mat-icon>remove_circle</mat-icon>
-                </button>
-                <button mat-icon-button class="visibility-button" (click)="itemOpenState = !itemOpenState">
-                    <mat-icon>visibility</mat-icon>
-                </button>
+        <div *ngIf="step === 1" class="resumo">
+            <h3><strong>Resumo</strong></h3>
+            <div class="item-adicionado">
+                <span>Cerveja</span>
+                <div>
+                    <button mat-icon-button class="add-button">
+                        <mat-icon>add_circle</mat-icon>
+                    </button>
+                    <button mat-icon-button class="remove-button">
+                        <mat-icon>remove_circle</mat-icon>
+                    </button>
+                    <button mat-icon-button class="visibility-button" (click)="itemOpenState = !itemOpenState">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                </div>
             </div>
-        </div>
-        <div class="adicionais" *ngIf="itemOpenState">
+            <div class="adicionais" *ngIf="itemOpenState">
+                <mat-divider></mat-divider>
+                <h3><strong>Adicionais</strong></h3>
+                <form>
+                    <mat-checkbox color="primary">Bacon</mat-checkbox>
+                    <mat-checkbox color="primary">Catupiry</mat-checkbox>
+                    <mat-form-field class="obs" appearance="fill">
+                        <mat-label>Observações</mat-label>
+                        <textarea matInput></textarea>
+                    </mat-form-field>
+                </form>
+            </div>
             <mat-divider></mat-divider>
-            <h3><strong>Adicionais</strong></h3>
-            <form>
-                <mat-checkbox color="primary">Bacon</mat-checkbox>
-                <mat-checkbox color="primary">Catupiry</mat-checkbox>
-                <mat-form-field class="obs" appearance="fill">
-                    <mat-label>Observações</mat-label>
-                    <textarea matInput></textarea>
-                </mat-form-field>
-            </form>
-        </div>
-        <mat-divider></mat-divider>
-        <div class="actions">
-            <mat-action-row>
-                <button mat-flat-button color="warn" (click)="prevStep()">Voltar</button>
-                <button mat-flat-button color="primary" (click)="nextStep()">Próximo</button>
-            </mat-action-row>
+            <div class="actions">
+                <mat-action-row>
+                    <button mat-flat-button color="warn" (click)="prevStep()">Voltar</button>
+                    <button mat-flat-button color="primary" (click)="nextStep()">Próximo</button>
+                </mat-action-row>
+            </div>
         </div>
     </div>
 </div>

@@ -1,7 +1,15 @@
 export class Produto {
-    id!: number;
+    id!: string;
     name!: string;
-    category!: string;
-    details!: string;
-    preco!: number;
+    active!: boolean;
+    description!: string;
+    category!: Category;
+    price!: number;
+    showDescription!: boolean;
+}
+
+export class Category {
+    id!: string;
+    name!: string;
+    active!: boolean;
 }
