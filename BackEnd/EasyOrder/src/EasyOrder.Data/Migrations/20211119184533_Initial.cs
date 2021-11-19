@@ -7,6 +7,14 @@ namespace EasyOrder.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateSequence<int>(
+                name: "NumberOrder",
+                minValue: 1L);
+
+            migrationBuilder.CreateSequence<int>(
+                name: "ProductCode",
+                minValue: 1L);
+
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
@@ -41,7 +49,7 @@ namespace EasyOrder.Data.Migrations
                     Name = table.Column<string>(type: "varchar(200)", nullable: false),
                     Table = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    Number = table.Column<int>(type: "int", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR NumberOrder"),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Subtotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -59,7 +67,7 @@ namespace EasyOrder.Data.Migrations
                     Name = table.Column<string>(type: "varchar(200)", nullable: false),
                     Description = table.Column<string>(type: "varchar(1000)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Code = table.Column<int>(type: "int", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR ProductCode"),
                     IdCategory = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -117,13 +125,13 @@ namespace EasyOrder.Data.Migrations
                         column: x => x.IdOrder,
                         principalTable: "Orders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Items_Products_IdProduct",
                         column: x => x.IdProduct,
                         principalTable: "Products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -141,13 +149,13 @@ namespace EasyOrder.Data.Migrations
                         column: x => x.IdExtra,
                         principalTable: "Extras",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ItemExtras_Items_IdItem",
                         column: x => x.IdItem,
                         principalTable: "Items",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -198,6 +206,12 @@ namespace EasyOrder.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropSequence(
+                name: "NumberOrder");
+
+            migrationBuilder.DropSequence(
+                name: "ProductCode");
         }
     }
 }

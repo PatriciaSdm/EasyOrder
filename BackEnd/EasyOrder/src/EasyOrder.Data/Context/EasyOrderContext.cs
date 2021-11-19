@@ -30,7 +30,8 @@ namespace EasyOrder.Data.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(EasyOrderContext).Assembly);
 
             //Desabilita delete cascade
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+            string[] modelsWithDeleteCascade = { "EasyOrder.Business.Models.Item", "EasyOrder.Business.Models.ItemExtra" };
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().Where(x => !modelsWithDeleteCascade.Contains(x.Name)).SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
 
             //Gera sequencia
             SequencesConfiguration(modelBuilder);

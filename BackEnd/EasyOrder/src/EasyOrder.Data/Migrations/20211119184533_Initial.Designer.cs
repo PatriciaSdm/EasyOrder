@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyOrder.Data.Migrations
 {
     [DbContext(typeof(EasyOrderContext))]
-    [Migration("20211118182603_Sequence")]
-    partial class Sequence
+    [Migration("20211119184533_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -214,11 +214,13 @@ namespace EasyOrder.Data.Migrations
                     b.HasOne("EasyOrder.Business.Models.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("IdOrder")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EasyOrder.Business.Models.Product", "Product")
                         .WithMany("Items")
                         .HasForeignKey("IdProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
@@ -231,11 +233,13 @@ namespace EasyOrder.Data.Migrations
                     b.HasOne("EasyOrder.Business.Models.Extra", "Extra")
                         .WithMany()
                         .HasForeignKey("IdExtra")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EasyOrder.Business.Models.Item", "Item")
                         .WithMany("ItemExtras")
                         .HasForeignKey("IdItem")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Extra");

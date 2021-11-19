@@ -11,14 +11,14 @@ namespace EasyOrder.Business.Models
         public int Table { get; set; }
         public StatusOrder Status { get; set; }
         //public User Waiter { get; set; }
-        public int Number { get; set; } //TODO: Gerar numero crescente
+        public int Number { get; set; }
         public decimal Discount { get; set; }
         public decimal Subtotal { get; set; }
         public decimal Total { get; set; }
 
 
         /* EF Relations */
-        public IEnumerable<Item> Items { get; set; }
+        public List<Item> Items { get; set; }
 
         public Order()
         {

@@ -19,7 +19,7 @@ namespace EasyOrder.Business.Models
         public Order Order { get; set; }
         [ForeignKey("IdProduct")]
         public Product Product { get; set; }
-        public ICollection<ItemExtra> ItemExtras { get; set; }
+        public List<ItemExtra> ItemExtras { get; set; }
 
         public Item()
         {

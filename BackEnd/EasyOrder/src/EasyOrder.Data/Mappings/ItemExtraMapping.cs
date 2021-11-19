@@ -15,6 +15,13 @@ namespace EasyOrder.Data.Mappings
 
             builder.Property(x => x.IdExtra)
                .IsRequired();
+
+            //Cascade Delete and ForeignKey
+            builder
+                .HasOne(tc => tc.Item)
+                .WithMany(car => car.ItemExtras)
+                .HasForeignKey(x => x.IdItem)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

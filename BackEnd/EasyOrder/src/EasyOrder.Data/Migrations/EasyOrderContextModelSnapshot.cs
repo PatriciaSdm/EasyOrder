@@ -212,11 +212,13 @@ namespace EasyOrder.Data.Migrations
                     b.HasOne("EasyOrder.Business.Models.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("IdOrder")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EasyOrder.Business.Models.Product", "Product")
                         .WithMany("Items")
                         .HasForeignKey("IdProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
@@ -229,11 +231,13 @@ namespace EasyOrder.Data.Migrations
                     b.HasOne("EasyOrder.Business.Models.Extra", "Extra")
                         .WithMany()
                         .HasForeignKey("IdExtra")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EasyOrder.Business.Models.Item", "Item")
                         .WithMany("ItemExtras")
                         .HasForeignKey("IdItem")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Extra");
