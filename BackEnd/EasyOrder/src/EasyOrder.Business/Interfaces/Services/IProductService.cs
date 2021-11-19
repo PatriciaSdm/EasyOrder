@@ -10,6 +10,7 @@ namespace EasyOrder.Business.Interfaces.Services
     {
         Task<Product> GetWithCategory(Guid id);
         Task<List<Product>> GetWithCategory();
+        Task<List<Product>> GetWithCategoryAndExtras();
         Task<bool> Include(Product product);
         Task<IEnumerable<Product>> GetByCategoryId(Guid id);
         Task<List<Product>> GetAll();

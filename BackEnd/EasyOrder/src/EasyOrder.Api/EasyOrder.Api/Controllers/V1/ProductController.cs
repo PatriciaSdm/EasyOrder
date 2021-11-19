@@ -68,7 +68,25 @@ namespace EasyOrder.Api.V1.Controllers
             return Ok(products);
         }
 
-     
+        [HttpGet("catalog")]
+        public async Task<ActionResult<IEnumerable<CatalogViewModel>>> GetCatalog()
+        {
+            var products = await _productService.GetWithCategoryAndExtras();
+
+            return Ok(ProductsToCatalogViewModel(products));
+        }
+
+        private List<CatalogViewModel> ProductsToCatalogViewModel(List<Product> products)
+        {
+            return products.GroupBy(x => x.Category)
+                            .Select(g => new CatalogViewModel
+                            {
+                                Category = g.Key.Name,
+                                Extras = _mapper.Map<IEnumerable<ExtraViewModel>>(g.Key.CategoryExtras.Select(x => x.Extra)),
+                                Products = _mapper.Map<IEnumerable<ProductViewModel>>(g.ToList())
+                            }).ToList();
+        }
+
         [HttpPost]
         public async Task<ActionResult<ProductViewModel>> Include(ProductViewModel productViewModel)
         {
@@ -90,5 +108,7 @@ namespace EasyOrder.Api.V1.Controllers
 
             return CustomResponse(productViewModel);
         }
+
+      
     }
 }

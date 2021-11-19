@@ -89,5 +89,10 @@ namespace Zombie.Tests.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public Task<List<Product>> GetWithCategoryAndExtras()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
