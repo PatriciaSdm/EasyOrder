@@ -67,14 +67,15 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         //[ClaimsAuthorize("Categories", "Update")]
-        [HttpPut("{id:guid}")]
-        public async Task<ActionResult<CategoryViewModel>> Update(Guid id, CategoryViewModel categoryViewModel)
+        //[HttpPut("{id:guid}")]
+        [HttpPut()]
+        public async Task<ActionResult<CategoryViewModel>> Update(/*Guid id, */CategoryViewModel categoryViewModel)
         {
-            if (id != categoryViewModel.Id)
-            {
-                NotifyError("O id informado não é o mesmo que foi passado na query");
-                return CustomResponse(categoryViewModel);
-            }
+            //if (id != categoryViewModel.Id)
+            //{
+            //    NotifyError("O id informado não é o mesmo que foi passado na query");
+            //    return CustomResponse(categoryViewModel);
+            //}
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 

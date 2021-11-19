@@ -70,14 +70,17 @@ namespace EasyOrder.Business.Services
 
         public async Task<Product> GetWithCategory(Guid id)
         {
-            var teste = await _productRepository.GetWithCategory(id);
             return await _productRepository.GetWithCategory(id);
         }
 
         public async Task<List<Product>> GetWithCategory()
         {
-            var teste = await _productRepository.GetWithCategory();
             return await _productRepository.GetWithCategory();
+        }
+
+        public async Task<List<Product>> GetWithCategoryAndExtras()
+        {
+            return await _productRepository.GetWithCategoryAndExtras();
         }
     }
 }

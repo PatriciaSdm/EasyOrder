@@ -11,6 +11,7 @@ namespace EasyOrder.Business.Interfaces.Repositories
     {
         Task<Product> GetWithCategory(Guid id);
         Task<List<Product>> GetWithCategory();
+        Task<List<Product>> GetWithCategoryAndExtras();
         Task<IEnumerable<Product>> GetByIdCategory(Guid idCategory);
         Task UpdateAll(List<Product> entities);
     }

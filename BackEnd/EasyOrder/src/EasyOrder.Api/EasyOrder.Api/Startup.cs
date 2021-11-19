@@ -58,6 +58,12 @@ namespace EasyOrder.Api
             services.AddLoggingConfig(Configuration);
 
             services.ResolveDependencies();
+
+            //Para evitar erro de referencia circular ao retornar Json
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)

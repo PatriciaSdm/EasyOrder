@@ -32,6 +32,15 @@ namespace EasyOrder.Data.Repository
                 .ToListAsync();
         }
 
+        public async Task<List<Product>> GetWithCategoryAndExtras()
+        {
+            return await Db.Products
+                .Include(x => x.Category)
+                    .ThenInclude (x => x.CategoryExtras)
+                        .ThenInclude(x => x.Extra)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Product>> GetByIdCategory(Guid idCategory)
         {
             return await DbSet.Where(x => x.IdCategory == idCategory).ToListAsync();
