@@ -11,7 +11,7 @@ namespace EasyOrder.Business.Models
 
 
         /* EF Relations */
-        public ICollection<CategoryExtra> CategoryExtras { get; set; }
+        public List<CategoryExtra> CategoryExtras { get; set; }
         //public virtual ICollection<Item> Items { get; set; }
     }
 }
