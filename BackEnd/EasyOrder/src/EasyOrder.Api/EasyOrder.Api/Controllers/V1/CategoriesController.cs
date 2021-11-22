@@ -34,18 +34,18 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryViewModel>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Category>>> GetAll()
         {
-            var categories = _mapper.Map<IEnumerable<CategoryViewModel>>(await _categoryService.GetAll());
+            var categories = await _categoryService.GetAll();
 
             return Ok(categories);
         }
 
         [AllowAnonymous]
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<IEnumerable<CategoryViewModel>>> Get(Guid id)
+        public async Task<ActionResult<IEnumerable<Category>>> Get(Guid id)
         {
-            var category = _mapper.Map<CategoryViewModel>(await _categoryService.GetById(id));
+            var category = await _categoryService.GetById(id);
             if (category == null) return NotFound();
 
             return Ok(category);
@@ -53,23 +53,21 @@ namespace EasyOrder.Api.V1.Controllers
 
         //[ClaimsAuthorize("Categories", "Include")]
         [HttpPost]
-        public async Task<ActionResult<CategoryViewModel>> Include(CategoryViewModel categoryViewModel)
+        public async Task<ActionResult<bool>> Include(Category category)
         {
             //if (AuthenticatedUser)
             //    AppUser.Name
             //    UserId
 
-            if (!ModelState.IsValid) return CustomResponse(ModelState);
+            //if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            await _categoryService.Include(_mapper.Map<Category>(categoryViewModel));
-
-            return CustomResponse(categoryViewModel);
+            return CustomResponse(await _categoryService.Include(category));
         }
 
         //[ClaimsAuthorize("Categories", "Update")]
         //[HttpPut("{id:guid}")]
         [HttpPut()]
-        public async Task<ActionResult<CategoryViewModel>> Update(/*Guid id, */CategoryViewModel categoryViewModel)
+        public async Task<ActionResult<bool>> Update(/*Guid id, */Category category)
         {
             //if (id != categoryViewModel.Id)
             //{
@@ -77,11 +75,9 @@ namespace EasyOrder.Api.V1.Controllers
             //    return CustomResponse(categoryViewModel);
             //}
 
-            if (!ModelState.IsValid) return CustomResponse(ModelState);
+            //if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            await _categoryService.Update(_mapper.Map<Category>(categoryViewModel));
-
-            return CustomResponse(categoryViewModel);
+            return CustomResponse(await _categoryService.Update(_mapper.Map<Category>(category)));
         }
     }
 }

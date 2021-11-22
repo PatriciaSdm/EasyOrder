@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using EasyOrder.Api.Controllers;
+using EasyOrder.Api.DTOs.Request;
+using EasyOrder.Api.DTOs.Response;
 using EasyOrder.Api.Extensions;
 using EasyOrder.Api.ViewModels;
 using EasyOrder.Business.Interfaces;
@@ -35,78 +37,77 @@ namespace EasyOrder.Api.V1.Controllers
 
 
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<IEnumerable<ProductViewModel>>> Get(Guid id)
+        public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> Get(Guid id)
         {
-            var product = _mapper.Map<ProductViewModel>(await _productService.GetById(id));
+            var product = _mapper.Map<ProductResponseDTO>(await _productService.GetById(id));
             if (product == null) return NotFound();
 
             return Ok(product);
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAll()
         {
-            var products = _mapper.Map<IEnumerable<ProductViewModel>>(await _productService.GetAll());
+            var products = _mapper.Map<IEnumerable<ProductResponseDTO>>(await _productService.GetAll());
 
             return Ok(products);
         }
 
         [HttpGet("with-categories/{id:guid}")]
-        public async Task<ActionResult<ProductViewModel>> GetWithCategory(Guid id)
+        public async Task<ActionResult<ProductResponseDTO>> GetWithCategory(Guid id)
         {
-            var product = _mapper.Map<ProductViewModel>(await _productService.GetWithCategory(id));
+            var product = _mapper.Map<ProductResponseDTO>(await _productService.GetWithCategory(id));
             if (product == null) return NotFound();
 
             return Ok(product);
         }
 
         [HttpGet("with-categories")]
-        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetWithCategory()
+        public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetWithCategory()
         {
-            var products = _mapper.Map<IEnumerable<ProductViewModel>>(await _productService.GetWithCategory());
+            var products = _mapper.Map<IEnumerable<ProductResponseDTO>>(await _productService.GetWithCategory());
 
             return Ok(products);
         }
 
         [HttpGet("catalog")]
-        public async Task<ActionResult<IEnumerable<CatalogViewModel>>> GetCatalog()
+        public async Task<ActionResult<IEnumerable<CatalogResponseDTO>>> GetCatalog()
         {
             var products = await _productService.GetWithCategoryAndExtras();
 
-            return Ok(ProductsToCatalogViewModel(products));
+            return Ok(ProductsToCatalogResponseDTO(products));
         }
 
-        private List<CatalogViewModel> ProductsToCatalogViewModel(List<Product> products)
+        private List<CatalogResponseDTO> ProductsToCatalogResponseDTO(List<Product> products)
         {
             return products.GroupBy(x => x.Category)
-                            .Select(g => new CatalogViewModel
+                            .Select(g => new CatalogResponseDTO
                             {
                                 Category = g.Key.Name,
-                                Extras = _mapper.Map<IEnumerable<ExtraViewModel>>(g.Key.CategoryExtras.Select(x => x.Extra)),
-                                Products = _mapper.Map<IEnumerable<ProductViewModel>>(g.ToList())
+                                Extras = _mapper.Map<IEnumerable<KeyValueResponseDTO>>(g.Key.CategoryExtras.Select(x => x.Extra)),
+                                Products = _mapper.Map<IEnumerable<ProductResponseDTO>>(g.ToList())
                             }).ToList();
         }
 
         [HttpPost]
-        public async Task<ActionResult<ProductViewModel>> Include(ProductViewModel productViewModel)
+        public async Task<ActionResult<bool>> Include(ProductRequestDTO productRequestDTO)
         {
 
-            if (!ModelState.IsValid) return CustomResponse(ModelState);
+            //if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            await _productService.Include(_mapper.Map<Product>(productViewModel));
+            
 
-            return CustomResponse(productViewModel);
+            return CustomResponse(await _productService.Include(_mapper.Map<Product>(productRequestDTO)));
         }
 
         [HttpPut]
-        public async Task<ActionResult<ProductViewModel>> Update(ProductViewModel productViewModel)
+        public async Task<ActionResult<bool>> Update(ProductRequestDTO productRequestDTO)
         {
 
-            if (!ModelState.IsValid) return CustomResponse(ModelState);
+            //if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            await _productService.Update(_mapper.Map<Product>(productViewModel));
 
-            return CustomResponse(productViewModel);
+            return CustomResponse(await _productService.Update(_mapper.Map<Product>(productRequestDTO)));
         }
 
       

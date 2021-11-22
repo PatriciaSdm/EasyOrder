@@ -15,7 +15,7 @@ namespace EasyOrder.Business.Services
     public class OrderService : Service, IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        public OrderService(IOrderRepository orderRepository, 
+        public OrderService(IOrderRepository orderRepository,
                             INotifier notifier) : base(notifier)
         {
             _orderRepository = orderRepository;
@@ -33,6 +33,7 @@ namespace EasyOrder.Business.Services
 
         public async Task<Order> GetWithItens(Guid id)
         {
+            var teste = await _orderRepository.GetWithItens(id);
             return await _orderRepository.GetWithItens(id);
         }
 
@@ -71,17 +72,8 @@ namespace EasyOrder.Business.Services
 
         private static void UpdateItemsList(Order order, Order model)
         {
-            //Itens removidos do Front
-            var teste = model.Items.ToList().RemoveAll(x => {
-                var itensremover = !order.Items.Select(y => y.Id).Contains(x.Id);
-                return !order.Items.Select(y => y.Id).Contains(x.Id);
-                });
-
-            //Itens novos
-            model.Items.ToList().AddRange(order.Items.Where(x => !model.Items.Select(y => y.Id).Contains(x.Id)));
-
             //Itens pra atualizar
-            model.Items.ToList().ForEach(x =>
+            model.Items.ForEach(x =>
             {
                 var item = order.Items.FirstOrDefault(y => y.Id == x.Id);
                 if (item != null)
@@ -92,15 +84,21 @@ namespace EasyOrder.Business.Services
                     UpdateExtrasList(item.ItemExtras, x.ItemExtras);
                 }
             });
-        }
 
-        private static void UpdateExtrasList(IEnumerable<ItemExtra> orderItemExtras, IEnumerable<ItemExtra> modelItemExtras)
-        {
             //Itens removidos do Front
-            modelItemExtras.ToList().RemoveAll(x => !orderItemExtras.Select(y => y.IdExtra).Contains(x.IdExtra));
+            var teste = model.Items.RemoveAll(x => !order.Items.Select(y => y.Id).Contains(x.Id));
 
             //Itens novos
-            modelItemExtras.ToList().AddRange(orderItemExtras.Where(x => !modelItemExtras.Select(y => y.IdExtra).Contains(x.IdExtra)));
+            model.Items.AddRange(order.Items.Where(x => !model.Items.Select(y => y.Id).Contains(x.Id)));
+        }
+
+        private static void UpdateExtrasList(List<ItemExtra> orderItemExtras, List<ItemExtra> modelItemExtras)
+        {
+            //Itens removidos do Front
+            modelItemExtras.RemoveAll(x => !orderItemExtras.Select(y => y.IdExtra).Contains(x.IdExtra));
+
+            //Itens novos
+            modelItemExtras.AddRange(orderItemExtras.Where(x => !modelItemExtras.Select(y => y.IdExtra).Contains(x.IdExtra)));
         }
 
         public async Task<bool> Close(Order order)

@@ -28,6 +28,11 @@ namespace EasyOrder.Data.Mappings
             builder.Property(x => x.IdProduct)
               .IsRequired();
 
+            builder
+                .HasOne(tc => tc.Order)
+                .WithMany(car => car.Items)
+                .OnDelete(DeleteBehavior.Cascade);
+
             // N : N => Items : Extras
             //builder
             //    .HasMany(p => p.Extras)

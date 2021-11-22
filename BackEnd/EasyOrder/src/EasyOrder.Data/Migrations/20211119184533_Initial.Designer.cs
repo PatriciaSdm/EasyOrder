@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyOrder.Data.Migrations
 {
     [DbContext(typeof(EasyOrderContext))]
-    [Migration("20211118175551_Initial")]
+    [Migration("20211119184533_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,12 @@ namespace EasyOrder.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.HasSequence<int>("NumberOrder")
+                .HasMin(1L);
+
+            modelBuilder.HasSequence<int>("ProductCode")
+                .HasMin(1L);
 
             modelBuilder.Entity("EasyOrder.Business.Models.Category", b =>
                 {
@@ -131,7 +137,9 @@ namespace EasyOrder.Data.Migrations
                         .HasColumnType("varchar(200)");
 
                     b.Property<int>("Number")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR NumberOrder");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -160,7 +168,9 @@ namespace EasyOrder.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("Code")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR ProductCode");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(1000)");
@@ -204,11 +214,13 @@ namespace EasyOrder.Data.Migrations
                     b.HasOne("EasyOrder.Business.Models.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("IdOrder")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EasyOrder.Business.Models.Product", "Product")
                         .WithMany("Items")
                         .HasForeignKey("IdProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
@@ -221,11 +233,13 @@ namespace EasyOrder.Data.Migrations
                     b.HasOne("EasyOrder.Business.Models.Extra", "Extra")
                         .WithMany()
                         .HasForeignKey("IdExtra")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EasyOrder.Business.Models.Item", "Item")
                         .WithMany("ItemExtras")
                         .HasForeignKey("IdItem")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Extra");

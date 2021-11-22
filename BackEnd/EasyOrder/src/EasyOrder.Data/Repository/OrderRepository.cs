@@ -26,6 +26,8 @@ namespace EasyOrder.Data.Repository
                 .Include(x => x.Items)
                     .ThenInclude(x => x.ItemExtras)
                         .ThenInclude(x => x.Extra)
+                .Include(x => x.Items)
+                    .ThenInclude(x => x.Product)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -38,6 +40,8 @@ namespace EasyOrder.Data.Repository
                 .Include(x => x.Items)
                     .ThenInclude(x => x.ItemExtras)
                         .ThenInclude(x => x.Extra)
+                .Include(x => x.Items)
+                    .ThenInclude(x => x.Product)
                 .ToListAsync();
         }
     }

@@ -8,7 +8,7 @@ namespace EasyOrder.Business.Models
     public class ItemExtra 
     {
         public Guid IdItem { get; set; }
-        [ForeignKey("IdItem")]
+        //[ForeignKey("IdItem")]
         public Item Item { get; set; }
 
         public Guid IdExtra { get; set; }

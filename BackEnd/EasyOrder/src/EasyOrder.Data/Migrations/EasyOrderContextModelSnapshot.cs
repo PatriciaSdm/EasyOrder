@@ -41,6 +41,26 @@ namespace EasyOrder.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("36320cd1-6cce-42b0-8940-02c887431a57"),
+                            Active = true,
+                            Name = "Pasteis"
+                        },
+                        new
+                        {
+                            Id = new Guid("dccbc2dd-1621-4654-b3f8-74fc917cbd41"),
+                            Active = true,
+                            Name = "Pizza"
+                        },
+                        new
+                        {
+                            Id = new Guid("3c9e8004-f3f6-49d2-8568-deb44f3fb267"),
+                            Active = true,
+                            Name = "Burguers"
+                        });
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.CategoryExtra", b =>
@@ -56,6 +76,33 @@ namespace EasyOrder.Data.Migrations
                     b.HasIndex("IdExtra");
 
                     b.ToTable("CategoryExtras");
+
+                    b.HasData(
+                        new
+                        {
+                            IdCategory = new Guid("36320cd1-6cce-42b0-8940-02c887431a57"),
+                            IdExtra = new Guid("53634a9a-7ebd-48af-979f-b08bf7d0e217")
+                        },
+                        new
+                        {
+                            IdCategory = new Guid("dccbc2dd-1621-4654-b3f8-74fc917cbd41"),
+                            IdExtra = new Guid("53634a9a-7ebd-48af-979f-b08bf7d0e217")
+                        },
+                        new
+                        {
+                            IdCategory = new Guid("36320cd1-6cce-42b0-8940-02c887431a57"),
+                            IdExtra = new Guid("265f34a4-1535-449b-acdf-6730c4443e73")
+                        },
+                        new
+                        {
+                            IdCategory = new Guid("3c9e8004-f3f6-49d2-8568-deb44f3fb267"),
+                            IdExtra = new Guid("265f34a4-1535-449b-acdf-6730c4443e73")
+                        },
+                        new
+                        {
+                            IdCategory = new Guid("dccbc2dd-1621-4654-b3f8-74fc917cbd41"),
+                            IdExtra = new Guid("7a77ed51-cdd6-4fcb-8f1d-85a1f92be96c")
+                        });
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.Extra", b =>
@@ -74,6 +121,26 @@ namespace EasyOrder.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Extras");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("53634a9a-7ebd-48af-979f-b08bf7d0e217"),
+                            Active = true,
+                            Name = "Queijo"
+                        },
+                        new
+                        {
+                            Id = new Guid("265f34a4-1535-449b-acdf-6730c4443e73"),
+                            Active = true,
+                            Name = "Bacon"
+                        },
+                        new
+                        {
+                            Id = new Guid("7a77ed51-cdd6-4fcb-8f1d-85a1f92be96c"),
+                            Active = true,
+                            Name = "Orégano"
+                        });
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.Item", b =>
@@ -104,6 +171,32 @@ namespace EasyOrder.Data.Migrations
                     b.HasIndex("IdProduct");
 
                     b.ToTable("Items");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ce9a2ad2-f00f-4baa-8709-58f3ab1d71bb"),
+                            IdOrder = new Guid("b699095c-d87c-4ff2-bce5-f1f1c0bae9b6"),
+                            IdProduct = new Guid("7c378c3b-b5f5-4ee3-8f1d-5ff73a89b7c1"),
+                            Quantity = 2,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("2aea14eb-dd41-4ce6-ba90-ad3a82553e25"),
+                            IdOrder = new Guid("b699095c-d87c-4ff2-bce5-f1f1c0bae9b6"),
+                            IdProduct = new Guid("3e8d9a71-0bbd-425f-bcc5-fb36048ef62c"),
+                            Quantity = 2,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("b9d81522-7e29-47b1-bc63-b80fa6241872"),
+                            IdOrder = new Guid("ce9a2ad2-f00f-4baa-8709-58f3ab1d71bb"),
+                            IdProduct = new Guid("eef85ecb-c7ff-46c6-89a8-345ab93669a6"),
+                            Quantity = 2,
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.ItemExtra", b =>
@@ -119,6 +212,23 @@ namespace EasyOrder.Data.Migrations
                     b.HasIndex("IdExtra");
 
                     b.ToTable("ItemExtras");
+
+                    b.HasData(
+                        new
+                        {
+                            IdItem = new Guid("ce9a2ad2-f00f-4baa-8709-58f3ab1d71bb"),
+                            IdExtra = new Guid("53634a9a-7ebd-48af-979f-b08bf7d0e217")
+                        },
+                        new
+                        {
+                            IdItem = new Guid("2aea14eb-dd41-4ce6-ba90-ad3a82553e25"),
+                            IdExtra = new Guid("53634a9a-7ebd-48af-979f-b08bf7d0e217")
+                        },
+                        new
+                        {
+                            IdItem = new Guid("b9d81522-7e29-47b1-bc63-b80fa6241872"),
+                            IdExtra = new Guid("7a77ed51-cdd6-4fcb-8f1d-85a1f92be96c")
+                        });
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.Order", b =>
@@ -154,6 +264,30 @@ namespace EasyOrder.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b699095c-d87c-4ff2-bce5-f1f1c0bae9b6"),
+                            Discount = 0m,
+                            Name = "Snow",
+                            Number = 0,
+                            Status = 1,
+                            Subtotal = 0m,
+                            Table = 1,
+                            Total = 0m
+                        },
+                        new
+                        {
+                            Id = new Guid("ce9a2ad2-f00f-4baa-8709-58f3ab1d71bb"),
+                            Discount = 0m,
+                            Name = "Salem",
+                            Number = 0,
+                            Status = 1,
+                            Subtotal = 0m,
+                            Table = 2,
+                            Total = 0m
+                        });
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.Product", b =>
@@ -188,6 +322,38 @@ namespace EasyOrder.Data.Migrations
                     b.HasIndex("IdCategory");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7c378c3b-b5f5-4ee3-8f1d-5ff73a89b7c1"),
+                            Active = true,
+                            Code = 0,
+                            Description = "Pastel de carne muito gostoso",
+                            IdCategory = new Guid("36320cd1-6cce-42b0-8940-02c887431a57"),
+                            Name = "Pastel de carne",
+                            Price = 10m
+                        },
+                        new
+                        {
+                            Id = new Guid("3e8d9a71-0bbd-425f-bcc5-fb36048ef62c"),
+                            Active = true,
+                            Code = 0,
+                            Description = "Pastel de quejo muito gostoso",
+                            IdCategory = new Guid("36320cd1-6cce-42b0-8940-02c887431a57"),
+                            Name = "Pastel de queijo",
+                            Price = 15m
+                        },
+                        new
+                        {
+                            Id = new Guid("eef85ecb-c7ff-46c6-89a8-345ab93669a6"),
+                            Active = true,
+                            Code = 0,
+                            Description = "Pizza muito gostoso",
+                            IdCategory = new Guid("dccbc2dd-1621-4654-b3f8-74fc917cbd41"),
+                            Name = "Pizza",
+                            Price = 45m
+                        });
                 });
 
             modelBuilder.Entity("EasyOrder.Business.Models.CategoryExtra", b =>
@@ -212,11 +378,13 @@ namespace EasyOrder.Data.Migrations
                     b.HasOne("EasyOrder.Business.Models.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("IdOrder")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EasyOrder.Business.Models.Product", "Product")
                         .WithMany("Items")
                         .HasForeignKey("IdProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
@@ -229,11 +397,13 @@ namespace EasyOrder.Data.Migrations
                     b.HasOne("EasyOrder.Business.Models.Extra", "Extra")
                         .WithMany()
                         .HasForeignKey("IdExtra")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EasyOrder.Business.Models.Item", "Item")
                         .WithMany("ItemExtras")
                         .HasForeignKey("IdItem")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Extra");

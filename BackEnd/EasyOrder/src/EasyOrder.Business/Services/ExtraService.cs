@@ -52,35 +52,21 @@ namespace EasyOrder.Business.Services
                 return false;
             }
 
-            var model = _extraRepository.GetWithCategories();
+            var model = await _extraRepository.GetWithCategories(extra.Id);
 
-            ////Itens removidos do Front
-            //var teste = model.Items.ToList().RemoveAll(x => {
-            //    var itensremover = !order.Items.Select(y => y.Id).Contains(x.Id);
-            //    return !order.Items.Select(y => y.Id).Contains(x.Id);
-            //});
+            AddAndRemoveChild(extra, model);
 
-            ////Itens novos
-            //model.Items.ToList().AddRange(order.Items.Where(x => !model.Items.Select(y => y.Id).Contains(x.Id)));
-
-            ////Itens pra atualizar
-            //model.Items.ToList().ForEach(x =>
-            //{
-            //    var item = order.Items.FirstOrDefault(y => y.Id == x.Id);
-            //    if (item != null)
-            //    {
-            //        x.Quantity = item.Quantity;
-            //        x.Observation = item.Observation;
-            //        x.Status = item.Status;
-            //        UpdateExtrasList(item.ItemExtras, x.ItemExtras);
-            //    }
-            //});
-
-
-            // TODO: Update child relationship
-
-            await _extraRepository.Update(extra);
+            await _extraRepository.Update(model);
             return true;
+        }
+
+        private static void AddAndRemoveChild(Extra extra, Extra model)
+        {
+            ////Itens removidos do Front
+            model.CategoryExtras.RemoveAll(x => !extra.CategoryExtras.Select(y => y.IdCategory).Contains(x.IdCategory));
+
+            ////Itens novos adicionados no Front
+            model.CategoryExtras.AddRange(extra.CategoryExtras.Where(x => !model.CategoryExtras.Select(y => y.IdCategory).Contains(x.IdCategory)));
         }
 
         public async Task<Extra> GetById(Guid id)
