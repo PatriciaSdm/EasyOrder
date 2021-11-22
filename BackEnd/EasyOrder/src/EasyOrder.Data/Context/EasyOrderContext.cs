@@ -9,7 +9,7 @@ namespace EasyOrder.Data.Context
     {
         public EasyOrderContext(DbContextOptions<EasyOrderContext> options) : base(options)
         {
-            
+
         }
 
         public DbSet<Category> Categories { get; set; }
@@ -22,21 +22,25 @@ namespace EasyOrder.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            foreach (var property in modelBuilder.Model.GetEntityTypes()
+           foreach (var property in modelBuilder.Model.GetEntityTypes()
                 .SelectMany(e => e.GetProperties()
                     .Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)");
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(EasyOrderContext).Assembly);
 
-            //Desabilita delete cascade
-            string[] modelsWithDeleteCascade = { "EasyOrder.Business.Models.Item", "EasyOrder.Business.Models.ItemExtra" };
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().Where(x => !modelsWithDeleteCascade.Contains(x.Name)).SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
-
-            //Gera sequencia
+            DeleteCascadeConfiguration(modelBuilder);
             SequencesConfiguration(modelBuilder);
 
+            modelBuilder.Seed();
+
             base.OnModelCreating(modelBuilder);
+        }
+
+        private static void DeleteCascadeConfiguration(ModelBuilder modelBuilder)
+        {
+            string[] modelsWithDeleteCascade = { "EasyOrder.Business.Models.Item", "EasyOrder.Business.Models.ItemExtra" };
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().Where(x => !modelsWithDeleteCascade.Contains(x.Name)).SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
         }
 
         private static void SequencesConfiguration(ModelBuilder modelBuilder)
