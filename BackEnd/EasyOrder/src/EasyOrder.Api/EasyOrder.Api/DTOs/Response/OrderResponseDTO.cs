@@ -1,14 +1,12 @@
 ﻿using EasyOrder.Business.Enums;
-using EasyOrder.Business.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EasyOrder.Api.ViewModels
+namespace EasyOrder.Api.DTOs.Response
 {
-    public class OrderViewModel
+    public class OrderResponseDTO
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -20,6 +18,6 @@ namespace EasyOrder.Api.ViewModels
         public decimal Subtotal { get; set; }
         public decimal Total { get; set; }
 
-        public IEnumerable<ItemViewModel> Items { get; set; }
+        public IEnumerable<ItemResponseDTO> Items { get; set; }
     }
 }

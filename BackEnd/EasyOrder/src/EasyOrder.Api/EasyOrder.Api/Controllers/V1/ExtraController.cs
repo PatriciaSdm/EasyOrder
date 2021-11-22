@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using EasyOrder.Api.Controllers;
+using EasyOrder.Api.DTOs.Request;
+using EasyOrder.Api.DTOs.Response;
 using EasyOrder.Api.Extensions;
 using EasyOrder.Api.ViewModels;
 using EasyOrder.Business.Interfaces;
@@ -34,18 +36,18 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ExtraViewModel>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ExtraResponseDTO>>> GetAll()
         {
-            var extras = _mapper.Map<IEnumerable<ExtraViewModel>>(await _extraService.GetAll());
+            var extras = _mapper.Map<IEnumerable<ExtraResponseDTO>>(await _extraService.GetAll());
 
             return Ok(extras);
         }
 
         [AllowAnonymous]
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<IEnumerable<ExtraViewModel>>> Get(Guid id)
+        public async Task<ActionResult<IEnumerable<ExtraResponseDTO>>> Get(Guid id)
         {
-            var extra = _mapper.Map<ExtraViewModel>(await _extraService.GetById(id));
+            var extra = _mapper.Map<ExtraResponseDTO>(await _extraService.GetById(id));
             if (extra == null) return NotFound();
 
             return Ok(extra);
@@ -53,9 +55,9 @@ namespace EasyOrder.Api.V1.Controllers
 
         //[AllowAnonymous]
         [HttpGet("with-categories/{id:guid}")]
-        public async Task<ActionResult<ExtraViewModel>> GetWithCategories(Guid id)
+        public async Task<ActionResult<ExtraResponseDTO>> GetWithCategories(Guid id)
         {
-            var extra = _mapper.Map<ExtraViewModel>(await _extraService.GetWithCategories(id));
+            var extra = _mapper.Map<ExtraResponseDTO>(await _extraService.GetWithCategories(id));
             if (extra == null) return NotFound();
 
             return Ok(extra);
@@ -63,9 +65,9 @@ namespace EasyOrder.Api.V1.Controllers
 
 
         [HttpGet("with-categories")]
-        public async Task<ActionResult<IEnumerable<ExtraViewModel>>> GetWithCategories()
+        public async Task<ActionResult<IEnumerable<ExtraResponseDTO>>> GetWithCategories()
         {
-            var extra = _mapper.Map<IEnumerable<ExtraViewModel>>(await _extraService.GetWithCategories());
+            var extra = _mapper.Map<IEnumerable<ExtraResponseDTO>>(await _extraService.GetWithCategories());
             if (extra == null) return NotFound();
 
             return Ok(extra);
@@ -73,19 +75,17 @@ namespace EasyOrder.Api.V1.Controllers
 
         //[ClaimsAuthorize("Extras", "Include")]
         [HttpPost]
-        public async Task<ActionResult<ExtraViewModel>> Include(ExtraViewModel extraViewModel)
+        public async Task<ActionResult<bool>> Include(ExtraRequestDTO extraRequestDTO)
         {
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            await _extraService.Include(_mapper.Map<Extra>(extraViewModel));
-
-            return CustomResponse(extraViewModel);
+            return CustomResponse(await _extraService.Include(_mapper.Map<Extra>(extraRequestDTO)));
         }
 
         //[ClaimsAuthorize("Extras", "Update")]
         [HttpPut]
-        public async Task<ActionResult<ExtraViewModel>> Update(ExtraViewModel extraViewModel)
+        public async Task<ActionResult<bool>> Update(ExtraRequestDTO extraRequestDTO)
         {
             //if (id != extraViewModel.Id)
             //{
@@ -93,11 +93,7 @@ namespace EasyOrder.Api.V1.Controllers
             //    return CustomResponse(extraViewModel);
             //}
 
-            if (!ModelState.IsValid) return CustomResponse(ModelState);
-
-            await _extraService.Update(_mapper.Map<Extra>(extraViewModel));
-
-            return CustomResponse(extraViewModel);
+            return CustomResponse(await _extraService.Update(_mapper.Map<Extra>(extraRequestDTO)));
         }
     }
 }

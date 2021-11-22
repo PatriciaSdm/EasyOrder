@@ -33,6 +33,7 @@ namespace EasyOrder.Business.Services
 
         public async Task<Order> GetWithItens(Guid id)
         {
+            var teste = await _orderRepository.GetWithItens(id);
             return await _orderRepository.GetWithItens(id);
         }
 

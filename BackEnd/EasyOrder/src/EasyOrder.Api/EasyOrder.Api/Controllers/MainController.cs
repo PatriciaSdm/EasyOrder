@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using EasyOrder.Api.ViewModels;
 using EasyOrder.Business.Interfaces;
 using EasyOrder.Business.Interfaces.INotifications;
 using EasyOrder.Business.Notifications;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
