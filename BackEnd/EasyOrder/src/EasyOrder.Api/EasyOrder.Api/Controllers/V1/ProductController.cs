@@ -46,6 +46,7 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         [HttpGet]
+        [ClaimsAuthorize("Products", "Read")]
         public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAll()
         {
             var products = _mapper.Map<IEnumerable<ProductResponseDTO>>(await _productService.GetAll());
@@ -54,6 +55,7 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         [HttpGet("with-categories/{id:guid}")]
+        [ClaimsAuthorize("Products", "Read")]
         public async Task<ActionResult<ProductResponseDTO>> GetWithCategory(Guid id)
         {
             var product = _mapper.Map<ProductResponseDTO>(await _productService.GetWithCategory(id));
@@ -63,6 +65,7 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         [HttpGet("with-categories")]
+        [ClaimsAuthorize("Products", "Read")]
         public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetWithCategory()
         {
             var products = _mapper.Map<IEnumerable<ProductResponseDTO>>(await _productService.GetWithCategory());
@@ -71,6 +74,7 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         [HttpGet("catalog")]
+        [ClaimsAuthorize("Products", "Read")]
         public async Task<ActionResult<IEnumerable<CatalogResponseDTO>>> GetCatalog()
         {
             var products = await _productService.GetWithCategoryAndExtras();
@@ -90,6 +94,7 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         [HttpPost]
+        [ClaimsAuthorize("Products", "Include")]
         public async Task<ActionResult<bool>> Include(ProductRequestDTO productRequestDTO)
         {
 
@@ -101,6 +106,7 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         [HttpPut]
+        [ClaimsAuthorize("Products", "Update")]
         public async Task<ActionResult<bool>> Update(ProductRequestDTO productRequestDTO)
         {
 

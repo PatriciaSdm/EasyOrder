@@ -59,6 +59,8 @@ namespace EasyOrder.Api
 
             services.ResolveDependencies();
 
+           
+
             //Para evitar erro de referencia circular ao retornar Json
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -73,6 +75,8 @@ namespace EasyOrder.Api
             app.UseSwaggerConfig(provider);
 
             app.UseLoggingConfiguration(Configuration);
+
+       
 
             //app.UseHealthChecks("/hc");
         }

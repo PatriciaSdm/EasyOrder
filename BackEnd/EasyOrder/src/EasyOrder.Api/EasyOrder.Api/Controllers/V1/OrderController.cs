@@ -11,6 +11,9 @@ using EasyOrder.Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Client;
+using SignalRChat.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,17 +29,21 @@ namespace EasyOrder.Api.V1.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
+        private readonly IHubContext<PanelHub> _signalRcontext;
         public OrderController(IOrderService orderService,
                                   IMapper mapper,
                                   INotifier notifier,
-                                  IUser user) : base(notifier, user)
+                                  IUser user,
+                                  IHubContext<PanelHub> signalRcontext) : base(notifier, user)
         {
             _orderService = orderService;
             _mapper = mapper;
+            _signalRcontext = signalRcontext;
         }
 
 
         [HttpGet("{id:guid}")]
+        [ClaimsAuthorize("Orders", "Read")]
         public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> Get(Guid id)
         {
             var order = _mapper.Map<OrderResponseDTO>(await _orderService.Get(id));
@@ -46,6 +53,7 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         [HttpGet]
+        [ClaimsAuthorize("Orders", "Read")]
         public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> Get()
         {
             var orders = _mapper.Map<IEnumerable<OrderResponseDTO>>(await _orderService.Get());
@@ -55,6 +63,7 @@ namespace EasyOrder.Api.V1.Controllers
 
 
         [HttpGet("with-itens/{id:guid}")]
+        [ClaimsAuthorize("Orders", "Read")]
         public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetWithItens(Guid id)
         {
             var order = _mapper.Map<OrderResponseDTO>(await _orderService.GetWithItens(id));
@@ -64,6 +73,7 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         [HttpGet("with-itens")]
+        [ClaimsAuthorize("Orders", "Read")]
         public async Task<ActionResult<IEnumerable<OrderResponseDTO>>> GetWithItens()
         {
             var orders = _mapper.Map<IEnumerable<OrderResponseDTO>>(await _orderService.GetWithItens());
@@ -72,22 +82,29 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         [HttpPost]
+        [ClaimsAuthorize("Orders", "Include")]
         public async Task<ActionResult<bool>> Include(OrderRequestDTO orderViewModel)
         {
-
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
+            var result = await _orderService.Include(_mapper.Map<Order>(orderViewModel));
+            await _signalRcontext.Clients.All.SendAsync("LoadPanel");
 
-            return CustomResponse(await _orderService.Include(_mapper.Map<Order>(orderViewModel)));
+            return CustomResponse(result);
         }
 
         [HttpPut]
+        [ClaimsAuthorize("Orders", "Update")]
         public async Task<ActionResult<bool>> Update(OrderRequestDTO orderViewModel)
         {
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            return CustomResponse(await _orderService.Update(_mapper.Map<Order>(orderViewModel)));
+            var result = await _orderService.Update(_mapper.Map<Order>(orderViewModel));
+
+            await _signalRcontext.Clients.All.SendAsync("LoadPanel");
+
+            return CustomResponse(result);
         }
     }
 }

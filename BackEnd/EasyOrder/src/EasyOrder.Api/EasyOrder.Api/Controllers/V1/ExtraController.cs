@@ -36,6 +36,7 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         [HttpGet]
+        [ClaimsAuthorize("Extras", "Read")]
         public async Task<ActionResult<IEnumerable<ExtraResponseDTO>>> GetAll()
         {
             var extras = _mapper.Map<IEnumerable<ExtraResponseDTO>>(await _extraService.GetAll());
@@ -45,6 +46,7 @@ namespace EasyOrder.Api.V1.Controllers
 
         [AllowAnonymous]
         [HttpGet("{id:guid}")]
+        [ClaimsAuthorize("Extras", "Read")]
         public async Task<ActionResult<IEnumerable<ExtraResponseDTO>>> Get(Guid id)
         {
             var extra = _mapper.Map<ExtraResponseDTO>(await _extraService.GetById(id));
@@ -54,6 +56,7 @@ namespace EasyOrder.Api.V1.Controllers
         }
 
         //[AllowAnonymous]
+        [ClaimsAuthorize("Extras", "Read")]
         [HttpGet("with-categories/{id:guid}")]
         public async Task<ActionResult<ExtraResponseDTO>> GetWithCategories(Guid id)
         {
@@ -63,7 +66,7 @@ namespace EasyOrder.Api.V1.Controllers
             return Ok(extra);
         }
 
-
+        [ClaimsAuthorize("Extras", "Read")]
         [HttpGet("with-categories")]
         public async Task<ActionResult<IEnumerable<ExtraResponseDTO>>> GetWithCategories()
         {
@@ -73,7 +76,7 @@ namespace EasyOrder.Api.V1.Controllers
             return Ok(extra);
         }
 
-        //[ClaimsAuthorize("Extras", "Include")]
+        [ClaimsAuthorize("Extras", "Include")]
         [HttpPost]
         public async Task<ActionResult<bool>> Include(ExtraRequestDTO extraRequestDTO)
         {
@@ -83,7 +86,7 @@ namespace EasyOrder.Api.V1.Controllers
             return CustomResponse(await _extraService.Include(_mapper.Map<Extra>(extraRequestDTO)));
         }
 
-        //[ClaimsAuthorize("Extras", "Update")]
+        [ClaimsAuthorize("Extras", "Update")]
         [HttpPut]
         public async Task<ActionResult<bool>> Update(ExtraRequestDTO extraRequestDTO)
         {

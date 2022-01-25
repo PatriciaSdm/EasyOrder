@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
+using SignalRChat.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,8 +54,10 @@ namespace EasyOrder.Api.Configuration
                     .AllowAnyHeader());
             });
 
+            services.AddSignalR();
+
             //services.AddHealthChecks()
-               // .AddSqlServer(Configuration.GetConnectionString("DefaultConnection"), name: "BancoSQL");
+            // .AddSqlServer(Configuration.GetConnectionString("DefaultConnection"), name: "BancoSQL");
             //services.AddHealthChecksUI();
 
             return services;
@@ -84,6 +87,7 @@ namespace EasyOrder.Api.Configuration
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<PanelHub>("/PanelHub");
             });
 
             return app;

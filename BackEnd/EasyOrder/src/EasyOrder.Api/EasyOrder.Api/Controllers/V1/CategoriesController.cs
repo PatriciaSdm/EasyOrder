@@ -33,6 +33,7 @@ namespace EasyOrder.Api.V1.Controllers
             _mapper = mapper;
         }
 
+        [ClaimsAuthorize("Categories", "Read")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetAll()
         {
@@ -41,7 +42,8 @@ namespace EasyOrder.Api.V1.Controllers
             return Ok(categories);
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [ClaimsAuthorize("Categories", "Read")]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<IEnumerable<Category>>> Get(Guid id)
         {
@@ -51,7 +53,7 @@ namespace EasyOrder.Api.V1.Controllers
             return Ok(category);
         }
 
-        //[ClaimsAuthorize("Categories", "Include")]
+        [ClaimsAuthorize("Categories", "Include")]
         [HttpPost]
         public async Task<ActionResult<bool>> Include(Category category)
         {
@@ -64,8 +66,7 @@ namespace EasyOrder.Api.V1.Controllers
             return CustomResponse(await _categoryService.Include(category));
         }
 
-        //[ClaimsAuthorize("Categories", "Update")]
-        //[HttpPut("{id:guid}")]
+        [ClaimsAuthorize("Categories", "Update")]
         [HttpPut()]
         public async Task<ActionResult<bool>> Update(/*Guid id, */Category category)
         {
