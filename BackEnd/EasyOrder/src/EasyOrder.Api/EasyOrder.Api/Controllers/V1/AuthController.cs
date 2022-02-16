@@ -3,6 +3,8 @@ using EasyOrder.Api.Extensions;
 using EasyOrder.Api.ViewModels;
 using EasyOrder.Business.Interfaces;
 using EasyOrder.Business.Interfaces.INotifications;
+using EasyOrder.Business.Interfaces.Services;
+using EasyOrder.Business.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -26,8 +28,10 @@ namespace EasyOrder.Api.V1.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
         private readonly ILogger _logger;
+        private readonly IUserService _userService;
 
         public AuthController(INotifier notifier,
+                              IUserService userService,
                               SignInManager<IdentityUser> signInManager,
                               UserManager<IdentityUser> userManager,
                               IOptions<AppSettings> appSettings,
@@ -38,6 +42,7 @@ namespace EasyOrder.Api.V1.Controllers
             _userManager = userManager;
             _logger = logger;
             _appSettings = appSettings.Value;
+            _userService = userService;
         }
 
         [HttpPost("new-account")]
@@ -52,9 +57,13 @@ namespace EasyOrder.Api.V1.Controllers
                 EmailConfirmed = true
             };
 
+            //cria o usuário Identity
             var result = await _userManager.CreateAsync(user, registerUser.Password);
             if (result.Succeeded)
             {
+                //Cria o usuário Easyorder
+                await _userService.Include(new User(Guid.Parse(user.Id), user.UserName, user.Email));
+
                 await _signInManager.SignInAsync(user, false);
                 return CustomResponse(await GerarJwt(user.Email));
             }
